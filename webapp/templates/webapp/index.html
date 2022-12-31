@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load vite %}
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Vite + Vue + TS</title>
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+		{% vite_styles 'main.css' %}
+	</head>
+	<body>
+		<div id="app"></div>
+		{% vite_scripts 'main.ts' %}
+	</body>
+</html>
