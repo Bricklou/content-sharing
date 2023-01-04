@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User, Group
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.contrib.auth.models import Group
 from rest_framework import viewsets, permissions
 
+from webapp.models import User
 from webapp.serializers import UserSerializer, GroupSerializer
 
 
@@ -23,7 +22,3 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-def index(request: HttpRequest) -> HttpResponse:
-    return render(request, 'webapp/index.html')

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: "jit",
-  content: ["./resources/**/*.{vue,ts,js,css}"],
+  content: ["./webapp/resources/**/*.{vue,ts,js,css}"],
   darkMode: "class",
   theme: {
     extend: {},

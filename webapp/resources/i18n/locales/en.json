@@ -1,0 +1,23 @@
+{
+  "components": {
+    "navbar": {
+      "search": "Search",
+      "avatar_alt": "{{username}}'s avatar",
+      "toggleTheme": "Toggle Theme"
+    }
+  },
+  "app": {
+    "loading": "Loading"
+  },
+  "pages": {
+    "home": {},
+    "login": {
+      "loginToYourAccount": "Login To Your Account",
+      "yourEmail": "Your email",
+      "yourPassword": "Your password",
+      "forgotYourPassword": "Forgot Your Password?",
+      "login_btn": "Login",
+      "dontHaveAccount": "You don't have an account?"
+    }
+  }
+}

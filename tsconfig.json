@@ -13,6 +13,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.tsx", "resources/**/*.vue"],
+  "include": ["webapp/resources/**/*.ts", "webapp/resources/**/*.d.ts", "webapp/resources/**/*.tsx", "webapp/resources/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

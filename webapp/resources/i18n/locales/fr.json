@@ -1,0 +1,23 @@
+{
+  "components": {
+    "navbar": {
+      "search": "Rechercher",
+      "avatar_alt": "Avatar de {{username}}",
+      "toggleTheme": "Changer de thème"
+    }
+  },
+  "app": {
+    "loading": "Chargement"
+  },
+  "pages": {
+    "home": {},
+    "login": {
+      "loginToYourAccount": "Connexion à votre compte",
+      "yourEmail": "Votre E-Mail",
+      "yourPassword": "Votre mot de passe",
+      "forgotYourPassword": "Mot de passe oublié ?",
+      "login_btn": "Connexion",
+      "dontHaveAccount": "Pas de compte ?"
+    }
+  }
+}
