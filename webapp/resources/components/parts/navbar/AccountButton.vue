@@ -30,11 +30,12 @@ function close(e: Event) {
 </script>
 
 <template>
-  <div ref="$el">
+  <div ref="$el" class="group">
     <button
       type="button"
-      class="relative block ml-4"
+      class="relative block rounded-full focus:outline-none hover:ring-2 ring-purple-500 ring-opacity-90"
       @click.passive="toggleMenu"
+      :class="{ 'ring-2': data.menuOpen }"
     >
       <img
         v-if="props.user.avatar != null"

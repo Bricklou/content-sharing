@@ -51,18 +51,18 @@ function toggleMenu() {
             />
             <input
               type="text"
-              class="block w-full py-1.5 pl-10 pr-4 leading-normal rounded-2xl focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500 ring-opacity-90 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-100 aa-input"
+              class="block h-10 w-full py-1.5 pl-10 pr-4 leading-normal rounded-2xl focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500 ring-opacity-90 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-100"
               :placeholder="t('components.navbar.search')"
             />
           </div>
         </div>
 
         <div
-          class="relative flex items-center justify-end w-1/4 p-1 ml-5 mr-4 sm:mr-0 sm:right-auto"
+          class="relative flex items-center justify-end w-1/4 p-1 ml-5 mr-4 sm:mr-0 sm:right-auto gap-x-2"
         >
           <button
             :title="t('components.navbar.toggleTheme')"
-            class="nav-button ml-2"
+            class="nav-button"
             @click="onThemeToggle"
           >
             <sun v-if="isDarkMode" />
@@ -71,11 +71,7 @@ function toggleMenu() {
 
           <account-button v-if="isLoggedIn && user" :user="user" />
 
-          <router-link
-            to="/login"
-            class="relative block ml-4 nav-button"
-            v-else
-          >
+          <router-link to="/login" class="relative block nav-button" v-else>
             <log-in />
           </router-link>
         </div>
