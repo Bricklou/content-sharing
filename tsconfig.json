@@ -11,7 +11,11 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": ["webapp/resources/types"],
+    "paths": {
+      "@/*": ["webapp/resources/*"]
+    }
   },
   "include": ["webapp/resources/**/*.ts", "webapp/resources/**/*.d.ts", "webapp/resources/**/*.tsx", "webapp/resources/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

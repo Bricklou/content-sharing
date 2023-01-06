@@ -26,6 +26,11 @@ export default defineConfig(({ command, mode }) => {
       write: true,
       emptyOutDir: true,
     },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./webapp/resources/"),
+      },
+    },
     plugins: [
       vue({
         template: {

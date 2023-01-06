@@ -3,7 +3,8 @@
     "navbar": {
       "search": "Rechercher",
       "avatar_alt": "Avatar de {{username}}",
-      "toggleTheme": "Changer de thème"
+      "toggleTheme": "Changer de thème",
+      "logout": "Déconnexion"
     }
   },
   "app": {

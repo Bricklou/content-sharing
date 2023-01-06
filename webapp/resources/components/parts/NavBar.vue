@@ -1,26 +1,17 @@
 <script setup lang="ts">
-import {
-  Home,
-  LogIn,
-  Moon,
-  Search,
-  Settings,
-  Sun,
-  User,
-} from "lucide-vue-next";
-import { useDispatch } from "../../store";
-import { toggleTheme, useTheme } from "../../store/reducer/theme.slice";
-import { logout, useAuth } from "../../store/reducer/auth.slice";
+import { Home, LogIn, Moon, Search, Sun } from "lucide-vue-next";
+import { useDispatch } from "@/store";
+import { toggleTheme, useTheme } from "@/store/reducer/theme.slice";
+import { useAuth } from "@/store/reducer/auth.slice";
 import { useTranslation } from "i18next-vue";
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
+import AccountButton from "./navbar/AccountButton.vue";
 
 const { t } = useTranslation();
 const dispatch = useDispatch();
 const { currentTheme, isDarkMode } = useTheme();
 const [isLoggedIn, user] = useAuth();
 const data = reactive({ menuOpen: false });
-const router = useRouter();
 
 const htmlEl = document.getElementsByTagName("html")[0];
 
@@ -36,13 +27,6 @@ function onThemeToggle() {
 
 function toggleMenu() {
   data.menuOpen = !data.menuOpen;
-}
-
-async function onLogout() {
-  await dispatch(logout());
-  data.menuOpen = false;
-
-  await router.replace("/");
 }
 </script>
 
@@ -72,6 +56,7 @@ async function onLogout() {
             />
           </div>
         </div>
+
         <div
           class="relative flex items-center justify-end w-1/4 p-1 ml-5 mr-4 sm:mr-0 sm:right-auto"
         >
@@ -84,53 +69,8 @@ async function onLogout() {
             <moon v-else />
           </button>
 
-          <template v-if="isLoggedIn && user">
-            <button
-              type="button"
-              class="relative block ml-4"
-              @click.passive="toggleMenu"
-            >
-              <img
-                v-if="user.avatar != null"
-                :alt="
-                  t('components.navbar.avatar_alt', {
-                    username: user.username,
-                  })
-                "
-                :src="user.avatar"
-                class="mx-auto object-cover rounded-full h-10 w-10"
-              />
-              <User v-else />
-            </button>
+          <account-button v-if="isLoggedIn && user" :user="user" />
 
-            <div
-              class="absolute right-0 top-14 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
-            >
-              <div
-                class="py-1 flex flex-col"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="options-menu"
-                v-show="data.menuOpen"
-              >
-                <button
-                  type="button"
-                  class="flex items-center mx-2 px-2 py-2 rounded text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600 text-left"
-                  role="menuitem"
-                  @click="onLogout"
-                >
-                  <settings class="mr-4" />
-
-                  <span class="grid grid-cols-1 grid-flow-col">
-                    <span class="row-start-1">Label</span>
-                    <span class="text-xs text-gray-400 row-start-2">
-                      Description
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </template>
           <router-link
             to="/login"
             class="relative block ml-4 nav-button"

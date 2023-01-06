@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { computed, ComputedRef } from "vue";
-import { useSelector } from "../helpers";
-import { HttpAPI } from "../../api";
+import { useSelector } from "@/store";
+import { HttpAPI } from "@/api";
 import Axios from "axios";
+import { User } from "@/types/user";
 
 const SLICE_NAME = "auth";
-const ACCESS_TOKEN_KEY = "access_token";
-const REFRESH_TOKEN_KEY = "refresh_token";
 
 export interface AuthState {
   user?: User;

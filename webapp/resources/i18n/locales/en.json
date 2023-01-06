@@ -3,7 +3,8 @@
     "navbar": {
       "search": "Search",
       "avatar_alt": "{{username}}'s avatar",
-      "toggleTheme": "Toggle Theme"
+      "toggleTheme": "Toggle Theme",
+      "logout": "Logout"
     }
   },
   "app": {
