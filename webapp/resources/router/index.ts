@@ -1,13 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "./routes";
-import store from "../store";
+import { refreshUser } from "@/store/reducer/auth.slice";
+import { setLoaded } from "@/store/reducer/app.slice";
+import store, { useDispatch } from "@/store";
 
 export const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  // Check if the app is already loaded
+  const isLoaded = store.getState().app.isLoaded;
+  if (!isLoaded) {
+    // If not, fetch the user data and mark it as loaded
+    const dispatch = useDispatch();
+    await dispatch(refreshUser());
+    await dispatch(setLoaded(true));
+  }
+
   const authState = store.getState().auth;
 
   // if any of the router has a meta named 'requiresAuth: true'

@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import NavBar from "./components/parts/NavBar.vue";
 import { useTheme } from "./store/reducer/theme.slice";
-import { onBeforeMount, reactive } from "vue";
-import { useDispatch } from "./store";
-import { refreshUser } from "./store/reducer/auth.slice";
+import { useSelector } from "./store";
 import { useTranslation } from "i18next-vue";
 
 const { currentTheme } = useTheme();
 const { t } = useTranslation();
+const isLoaded = useSelector((s) => s.app.isLoaded);
 
 if (currentTheme.value === "dark") {
   const htmlEl = document.getElementsByTagName("html")[0];
@@ -15,24 +14,15 @@ if (currentTheme.value === "dark") {
     htmlEl.classList.add("dark");
   }
 }
-
-const data = reactive({ loading: true });
-
-onBeforeMount(() => {
-  const dispatch = useDispatch();
-
-  dispatch(refreshUser()).finally(() => {
-    data.loading = false;
-  });
-});
 </script>
 
 <template>
-  <template v-if="!data.loading">
+  <template v-if="isLoaded">
     <nav-bar class="m-4" />
     <router-view />
   </template>
-  <template v-else>{{ t("app.loading") }}</template>
+
+  <p v-else v-text="t('app.loading')" />
 </template>
 
 <style lang="postcss" scoped></style>

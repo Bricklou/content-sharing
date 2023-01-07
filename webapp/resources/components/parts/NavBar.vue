@@ -24,10 +24,6 @@ function onThemeToggle() {
     htmlEl.classList.remove("dark");
   }
 }
-
-function toggleMenu() {
-  data.menuOpen = !data.menuOpen;
-}
 </script>
 
 <template>
@@ -69,7 +65,7 @@ function toggleMenu() {
             <moon v-else />
           </button>
 
-          <account-button v-if="isLoggedIn && user" :user="user" />
+          <account-button v-if="isLoggedIn" :user="user" />
 
           <router-link to="/login" class="relative block nav-button" v-else>
             <log-in />

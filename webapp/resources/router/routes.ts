@@ -11,16 +11,19 @@ declare module "vue-router" {
 }
 
 export const routes: RouteRecordRaw[] = [
-  { path: "/", component: HelloWorld },
+  { path: "/", component: HelloWorld, name: "home" },
   {
     path: "/login",
+    name: "login",
     meta: {
       requiresLogged: true,
     },
     component: LoginPage,
   },
+
   {
     path: "/my-account",
+    name: "my-account",
     meta: {
       requiresAuth: true,
     },
