@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { defineProps, onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import { onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { useTranslation } from "i18next-vue";
 import type { User } from "@/types/user";
-import { User as UserIcon } from "lucide-vue-next";
 import DropdownMenu from "@/components/parts/navbar/DropdownMenu.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 const props = defineProps<{ user: User }>();
 const data = reactive({ menuOpen: false });
@@ -37,17 +37,7 @@ function close(e: Event) {
       @click.passive="toggleMenu"
       :class="{ 'ring-2': data.menuOpen }"
     >
-      <img
-        v-if="props.user.avatar != null"
-        :alt="
-          t('components.navbar.avatar_alt', {
-            username: props.user.username,
-          })
-        "
-        :src="user.avatar"
-        class="mx-auto object-cover rounded-full h-10 w-10"
-      />
-      <UserIcon v-else />
+      <user-avatar :user="props.user" />
     </button>
 
     <dropdown-menu :is-open="data.menuOpen" @close="data.menuOpen = false" />

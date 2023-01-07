@@ -24,5 +24,13 @@
     "prettier/prettier": [
       "error"
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.vue", "*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

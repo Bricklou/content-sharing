@@ -2,9 +2,12 @@
   "components": {
     "navbar": {
       "search": "Search",
-      "avatar_alt": "{{username}}'s avatar",
       "toggleTheme": "Toggle Theme",
-      "logout": "Logout"
+      "logout": "Logout",
+      "my_account": "My Account"
+    },
+    "user_avatar": {
+      "avatar_alt": "{{username}}'s avatar"
     }
   },
   "app": {
