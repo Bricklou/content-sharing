@@ -3,24 +3,23 @@ import logging
 from django.contrib.auth import logout, authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from rest_framework import permissions
 from rest_framework.decorators import permission_classes
 from rest_framework.views import APIView
 
 from webapp.serializers import UserSerializer
+from webapp.utils.permissions import IsAuthenticatedNotPost
 
 logger = logging.getLogger("django")
 logger.setLevel(logging.INFO)
 
 
+@permission_classes([IsAuthenticatedNotPost])
 class UserView(APIView):
-    @permission_classes([permissions.IsAuthenticated])
     def get(self, request):
         user = request.user
         serialized_user = UserSerializer(user)
         return JsonResponse({"details": "User object", "user": serialized_user.data})
 
-    @permission_classes([permissions.IsAuthenticated])
     def delete(self, request):
         logout(request)
         return JsonResponse({"details": "Logout successful"})
@@ -31,6 +30,7 @@ class UserView(APIView):
             and HttpOnly cookie, the `sessionid` cookie
             """
         data = request.data
+        print(data)
         username = data.get("username")
         password = data.get("password")
         if username is None or password is None:
