@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, reactive, ref } from "vue";
-import { useTranslation } from "i18next-vue";
 import type { User } from "@/types/user";
 import DropdownMenu from "@/components/parts/navbar/DropdownMenu.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
@@ -8,7 +7,6 @@ import UserAvatar from "@/components/UserAvatar.vue";
 const props = defineProps<{ user: User }>();
 const data = reactive({ menuOpen: false });
 const $el = ref<HTMLDivElement>();
-const { t } = useTranslation();
 
 function toggleMenu() {
   data.menuOpen = !data.menuOpen;
@@ -40,6 +38,10 @@ function close(e: Event) {
       <user-avatar :user="props.user" />
     </button>
 
-    <dropdown-menu :is-open="data.menuOpen" @close="data.menuOpen = false" />
+    <dropdown-menu
+      :user="props.user"
+      :is-open="data.menuOpen"
+      @close="data.menuOpen = false"
+    />
   </div>
 </template>

@@ -4,7 +4,8 @@
       "search": "Search",
       "toggleTheme": "Toggle Theme",
       "logout": "Logout",
-      "my_account": "My Account"
+      "my_account": "My Account",
+      "admin-redirect": "Administration"
     },
     "user_avatar": {
       "avatar_alt": "{{username}}'s avatar"
@@ -22,6 +23,10 @@
       "forgotYourPassword": "Forgot Your Password?",
       "login_btn": "Login",
       "dontHaveAccount": "You don't have an account?"
+    },
+    "my-account": {
+      "email": "E-Mail Address",
+      "username": "Username"
     }
   }
 }

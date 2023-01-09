@@ -4,7 +4,8 @@
       "search": "Rechercher",
       "toggleTheme": "Changer de thème",
       "logout": "Déconnexion",
-      "my_account": "Mon compte"
+      "my_account": "Mon compte",
+      "admin-redirect": "Administration"
     },
     "user_avatar": {
       "avatar_alt": "Avatar de {{username}}"
@@ -22,6 +23,9 @@
       "forgotYourPassword": "Mot de passe oublié ?",
       "login_btn": "Connexion",
       "dontHaveAccount": "Pas de compte ?"
+    },
+    "my-account": {
+      "email": "Adresse E-Mail"
     }
   }
 }

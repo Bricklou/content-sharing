@@ -2,27 +2,30 @@
 import { logout } from "@/store/reducer/auth.slice";
 import { useRouter } from "vue-router";
 import { useDispatch } from "@/store";
-import { LogOut, UserCog } from "lucide-vue-next";
-import { FunctionalComponent } from "vue";
+import { LayoutDashboard, LogOut, UserCog } from "lucide-vue-next";
 import { useTranslation } from "i18next-vue";
+import { User } from "@/types/user";
+import type { DropdownItemType } from "@/components/parts/navbar/DropdownItem.vue";
+import DropdownItem from "@/components/parts/navbar/DropdownItem.vue";
 
-const props = defineProps<{ isOpen: boolean }>();
+const props = defineProps<{ isOpen: boolean; user: User }>();
 const emits = defineEmits(["close"]);
 const router = useRouter();
 const dispatch = useDispatch();
 const { t } = useTranslation();
 
-type DropdownItem = {
-  title: string;
-  icon?: FunctionalComponent;
-  description?: string;
-} & AllXOR<[{ action: () => void }, { to: string }]>;
-
-const items: DropdownItem[] = [
+const items: DropdownItemType[] = [
   {
     title: t("components.navbar.my_account"),
     to: "my-account",
     icon: UserCog,
+  },
+  {
+    title: t("components.navbar.admin-redirect"),
+    to: "/admin/",
+    external: true,
+    condition: () => props.user.is_staff || props.user.is_superuser,
+    icon: LayoutDashboard,
   },
   {
     title: t("components.navbar.logout"),
@@ -46,46 +49,13 @@ const items: DropdownItem[] = [
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu"
-        v-for="(item, index) in items"
+        v-for="(item, index) in items.filter((i) =>
+          i.condition ? i.condition() : true
+        )"
         :key="index"
         @click.passive="emits('close')"
       >
-        <button
-          type="button"
-          class="flex items-center mx-2 px-2 py-2 rounded text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600 text-left"
-          role="menuitem"
-          @click="item.action"
-          v-if="item.hasOwnProperty('action')"
-        >
-          <component v-if="item.icon" :is="item.icon" class="mr-4" />
-
-          <span class="grid grid-cols-1 grid-flow-col">
-            <span class="row-start-1" v-text="item.title" />
-            <span
-              class="text-xs text-gray-400 row-start-2"
-              v-if="item.description"
-              v-text="item.description"
-            />
-          </span>
-        </button>
-
-        <router-link
-          class="flex items-center mx-2 px-2 py-2 rounded text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600 text-left"
-          role="menuitem"
-          :to="item.to"
-          v-else
-        >
-          <component v-if="item.icon" :is="item.icon" class="mr-4" />
-
-          <span class="grid grid-cols-1 grid-flow-col">
-            <span class="row-start-1" v-text="item.title" />
-            <span
-              class="text-xs text-gray-400 row-start-2"
-              v-if="item.description"
-              v-text="item.description"
-            />
-          </span>
-        </router-link>
+        <dropdown-item :key="index" :item="item" />
       </div>
     </div>
   </transition>

@@ -41,9 +41,9 @@ function onThemeToggle() {
             <home />
           </router-link>
 
-          <div class="relative flex items-center w-full h-full lg:w-64 group">
+          <div class="relative flex items-center w-full h-full lg:w-96 group">
             <search
-              class="absolute left-0 z-20 hidden w-4 h-4 ml-4 text-gray-500 pointer-events-none text-current group-hover:text-gray-400 sm:block"
+              class="absolute left-0 z-20 w-4 h-4 ml-4 text-gray-500 pointer-events-none text-current group-hover:text-gray-300 block"
             />
             <input
               type="text"

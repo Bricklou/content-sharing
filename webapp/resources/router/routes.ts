@@ -1,7 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
-import HelloWorld from "../components/HelloWorld.vue";
-import LoginPage from "../pages/LoginPage.vue";
+import HelloWorld from "@/components/HelloWorld.vue";
+import LoginPage from "@/pages/LoginPage.vue";
 import MyAccount from "@/pages/MyAccount.vue";
+import FilesLayout from "@/pages/files/FilesLayout.vue";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -11,7 +12,10 @@ declare module "vue-router" {
 }
 
 export const routes: RouteRecordRaw[] = [
-  { path: "/", component: HelloWorld, name: "home" },
+  {
+    path: "/",
+    redirect: "/me",
+  },
   {
     path: "/login",
     name: "login",
@@ -28,5 +32,17 @@ export const routes: RouteRecordRaw[] = [
       requiresAuth: true,
     },
     component: MyAccount,
+    children: [
+      {
+        path: "",
+        component: HelloWorld,
+      },
+      {
+        path: "/security",
+        component: HelloWorld,
+      },
+    ],
   },
+  { path: "/me/:files*", component: FilesLayout, name: "files" },
+  { path: "/:any*", redirect: "/" },
 ];
