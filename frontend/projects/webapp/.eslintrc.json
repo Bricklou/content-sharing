@@ -15,6 +15,9 @@
         ],
         "createDefaultProgram": true
       },
+      "extends": [
+        "plugin:storybook/recommended"
+      ],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",

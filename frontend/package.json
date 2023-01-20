@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "storybook": "ng run webapp:storybook",
+    "build-storybook": "ng run webapp:build-storybook"
   },
   "private": true,
   "dependencies": {
@@ -32,9 +34,19 @@
     "@angular-eslint/template-parser": "14.4.0",
     "@angular/cli": "~14.2.10",
     "@angular/compiler-cli": "^14.2.0",
+    "@compodoc/compodoc": "^1.1.19",
+    "@storybook/addon-docs": "^6.5.15",
+    "@storybook/addon-essentials": "^7.0.0-beta.31",
+    "@storybook/addon-interactions": "^7.0.0-beta.31",
+    "@storybook/addon-links": "^7.0.0-beta.31",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/angular": "^7.0.0-beta.31",
+    "@storybook/blocks": "^7.0.0-beta.31",
+    "@storybook/testing-library": "^0.0.13",
     "@types/jasmine": "~4.0.0",
     "@typescript-eslint/eslint-plugin": "5.43.0",
     "@typescript-eslint/parser": "5.43.0",
+    "autoprefixer": "^10.4.13",
     "eslint": "^8.28.0",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
@@ -42,6 +54,12 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.0.0-beta.31",
+    "tailwindcss": "^3.2.4",
     "typescript": "~4.7.2"
   }
 }

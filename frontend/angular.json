@@ -109,6 +109,36 @@
               "projects/webapp/**/*.html"
             ]
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/webapp/.storybook",
+            "browserTarget": "webapp:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/webapp"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/webapp/.storybook",
+            "browserTarget": "webapp:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/webapp"
+            ],
+            "outputDir": "storybook-static"
+          }
         }
       }
     }
