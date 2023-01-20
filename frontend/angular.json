@@ -115,13 +115,7 @@
           "options": {
             "configDir": "projects/webapp/.storybook",
             "browserTarget": "webapp:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "projects/webapp"
-            ],
+            "compodoc": false,
             "port": 6006
           }
         },
@@ -130,13 +124,7 @@
           "options": {
             "configDir": "projects/webapp/.storybook",
             "browserTarget": "webapp:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "projects/webapp"
-            ],
+            "compodoc": false,
             "outputDir": "storybook-static"
           }
         }

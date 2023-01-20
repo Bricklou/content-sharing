@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import type { User } from './User';
 
 @Component({
-  selector: 'storybook-page',
+  selector: 'sb-page',
   template: `<article>
     <storybook-header
       [user]="user"
       (onLogout)="doLogout()"
       (onLogin)="doLogin()"
-      (onCreateAccount)="doCreateAccount()"
-    ></storybook-header>
+      (onCreateAccount)="doCreateAccount()"></storybook-header>
     <section>
       <h2>Pages in Storybook</h2>
       <p>
@@ -50,8 +49,7 @@ import type { User } from './User';
             <path
               d="M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z"
               id="a"
-              fill="#999"
-            />
+              fill="#999" />
           </g>
         </svg>
         Viewports addon in the toolbar
