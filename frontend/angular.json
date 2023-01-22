@@ -17,7 +17,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/webapp",
             "index": "projects/webapp/src/index.html",
@@ -31,7 +31,10 @@
             "styles": [
               "projects/webapp/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "./webpack.config.js"
+            }
           },
           "configurations": {
             "production": {
@@ -67,7 +70,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "webapp:build:production"
@@ -108,24 +111,6 @@
               "projects/webapp/**/*.ts",
               "projects/webapp/**/*.html"
             ]
-          }
-        },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "configDir": "projects/webapp/.storybook",
-            "browserTarget": "webapp:build",
-            "compodoc": false,
-            "port": 6006
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "options": {
-            "configDir": "projects/webapp/.storybook",
-            "browserTarget": "webapp:build",
-            "compodoc": false,
-            "outputDir": "storybook-static"
           }
         }
       }
