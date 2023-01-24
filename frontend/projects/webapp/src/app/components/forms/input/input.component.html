@@ -1,0 +1,16 @@
+<div class="input-container">
+  <label [for]="elId" *ngIf="label">{{ label }}</label>
+
+  <input
+    [id]="elId"
+    [type]="type"
+    [name]="name"
+    class="input"
+    [attr.disabled]="disabled"
+    [required]="required"
+    [(ngModel)]="value"
+    (blur)="onBlur()"
+    #input
+    placeholder="{{ placeholder }}"
+  />
+</div>

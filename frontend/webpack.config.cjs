@@ -51,8 +51,8 @@ const config = (config, options, targetOptions) => {
   })
 
   config.resolve.alias = {
-    '@': path.resolve(__dirname, './src'),
-    '@app': path.resolve(__dirname, './src/app')
+    '@': path.resolve(__dirname, './projects/webapp/src'),
+    '@app': path.resolve(__dirname, './projects/webapp/src/app')
   }
 
   return config

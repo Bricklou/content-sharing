@@ -1,0 +1,9 @@
+.loading-bar {
+  @apply fixed m-0 p-0 top-0 left-0 right-0 z-50;
+
+  &-progress {
+    @apply m-0 p-0 z-50 opacity-0 bg-candlelight-500 text-candlelight-500;
+    box-shadow: 0 0 10px 0;
+    height: 3px;
+  }
+}

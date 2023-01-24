@@ -1,0 +1,111 @@
+.navbar-container {
+  @apply z-30 w-full;
+}
+
+.navbar {
+  @apply h-full mx-auto py-6 md:py-4 px-4 flex flex-col lg:flex-row items-center justify-center lg:justify-between;
+  @apply bg-firefly;
+
+  .logo {
+    @apply text-white font-black text-3xl flex flex-row items-center uppercase hidden md:block;
+
+    img {
+      @apply w-12 h-12 rounded-full mr-2;
+    }
+  }
+
+  .menu {
+    @apply text-white uppercase md:container md:mx-auto;
+    @apply w-full flex flex-row justify-between items-center;
+    /*@apply py-4 w-full mx-auto max-w-screen-md lg:max-w-none;
+    @apply flex md:items-center flex-col md:flex-row justify-center lg:justify-end;*/
+
+    lucide-angular {
+      @apply h-7 w-7;
+    }
+
+    .menu-start {
+      @apply flex flex-1 flex-row justify-between items-center md:justify-start;
+
+      .search-bar {
+        @apply hidden mx-2 md:block w-full md:w-1/2 md:max-w-md my-auto;
+
+        ::ng-deep .input {
+          @apply bg-firefly-600 text-white placeholder-firefly-200 placeholder-opacity-60;
+        }
+
+        &.active {
+          @apply block;
+        }
+      }
+
+      .search-preview {
+        @apply hidden text-right w-full mr-4 text-pickled-bluewood-200 text-lg;
+
+        &.active {
+          @apply inline-block md:hidden;
+        }
+      }
+
+      .search-btn {
+        @apply md:hidden;
+
+        * {
+          @apply inline-block;
+        }
+      }
+    }
+
+    .menu-end {
+      @apply hidden bg-firefly-800;
+
+      .header-buttons {
+        @apply flex flex-row justify-between items-center;
+        @apply m-6 mx-4 mb-6 pb-8 border-b border-pickled-bluewood-700;
+
+        .close-btn {
+          @apply md:hidden;
+        }
+
+        @screen md {
+          @apply md:m-0 border-0 p-0;
+        }
+      }
+
+      .menu-content {
+        @apply px-8 md:p-0;
+      }
+
+      &.active {
+        @apply fixed flex flex-col flex-1 z-20;
+        @apply top-0 bottom-0 left-0 right-0 w-screen h-full;
+      }
+
+      @screen md {
+        @apply inline-flex relative w-auto h-auto flex-row flex-none !important;
+      }
+    }
+
+    .link {
+      @apply py-2 px-2 mx-1 flex;
+      @apply border-transparent;
+      @apply transition-colors duration-100 ease-in-out;
+
+      &:hover {
+        @apply text-candlelight-500;
+      }
+
+      &.active {
+        @apply text-candlelight-300;
+      }
+
+      span {
+        @apply ml-6 text-lg;
+      }
+    }
+  }
+}
+
+.mobile-nav-btn {
+  @apply m-6 w-8 h-8 sticky top-8 right-0 z-10 md:hidden;
+}

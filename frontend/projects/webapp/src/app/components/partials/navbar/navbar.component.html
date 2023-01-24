@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="navbar.component.css">
+<header class="navbar-container">
+  <div class="navbar">
+    <nav class="menu" role="menubar">
+      <div class="submenu menu-start">
+        <a
+          routerLink="/"
+          class="link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page"
+        >
+          <lucide-angular name="home"></lucide-angular>
+        </a>
+
+
+        <app-input elId="search-bar" type="search" class="search-bar" placeholder="Search bar" #searchElement
+                   (blur)="toggleSearch()"
+                   [ngClass]="{'active': isSearching}"
+                   [(ngModel)]="searchValue" (keydown.enter)="search()"></app-input>
+
+        <ng-template [ngIf]="searchValue.length>0">
+          <p (click)="toggleSearch()" class="search-preview" [ngClass]="{'active': !isSearching}">{{ searchValue }}</p>
+        </ng-template>
+        <button type="button" class="link search-btn" (click)="toggleSearch()">
+          <lucide-angular [name]="isSearching ? 'x' : 'search'"></lucide-angular>
+        </button>
+      </div>
+
+      <div class="submenu menu-end" [ngClass]="{'active': isMenuOpened}">
+        <div class="header-buttons">
+          <button type="button" class="link">
+            <lucide-angular name="sun"></lucide-angular>
+          </button>
+          <button type="button" class="link close-btn" (click)="toggleMenu()">
+            <lucide-angular name="x"></lucide-angular>
+          </button>
+
+        </div>
+
+        <div class="menu-content">
+          <button
+            type="button"
+            class="link"
+            *ngIf="isLoggedIn; else elseGuest"
+            title="Déconnexion"
+            (click)="logout()"
+          >
+            <lucide-angular name="power" class="icon"></lucide-angular>
+          </button>
+          <ng-template #elseGuest>
+            <a href="/auth/login" class="link" title="Connexion">
+              <lucide-angular name="log-in" class="icon"></lucide-angular>
+              <span class="md:hidden">Connexion</span>
+            </a>
+          </ng-template>
+        </div>
+      </div>
+
+
+    </nav>
+  </div>
+</header>
+
+<button class="mobile-nav-btn" [ngClass]="{'active': isMenuOpened}" (click)="toggleMenu()">
+  <lucide-angular name="menu"></lucide-angular>
+</button>
