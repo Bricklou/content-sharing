@@ -1,6 +1,13 @@
 import {Component, OnDestroy} from '@angular/core';
 import {LoadingBarService} from "./services/loading-bar.service";
-import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
+import {
+  ActivatedRoute,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router
+} from "@angular/router";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -12,10 +19,12 @@ export class AppComponent implements OnDestroy {
   public title = 'webapp';
 
   private sub: Subscription
+  protected hideNavbar = false;
 
   public constructor(
     private loadingBar: LoadingBarService,
-    private router: Router) {
+    private router: Router,
+    private route: ActivatedRoute) {
     this.sub = this.router.events.subscribe({
       next: (event) => {
         if (event instanceof NavigationStart) {
@@ -26,6 +35,8 @@ export class AppComponent implements OnDestroy {
           event instanceof NavigationError
         ) {
           this.loadingBar.complete()
+
+          this.hideNavbar = route.root.firstChild?.snapshot.data['hideNavbar'] || false;
         }
       },
       error: () => {

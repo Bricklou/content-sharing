@@ -17,8 +17,6 @@
   .menu {
     @apply text-white uppercase md:container md:mx-auto;
     @apply w-full flex flex-row justify-between items-center;
-    /*@apply py-4 w-full mx-auto max-w-screen-md lg:max-w-none;
-    @apply flex md:items-center flex-col md:flex-row justify-center lg:justify-end;*/
 
     lucide-angular {
       @apply h-7 w-7;

@@ -1,0 +1,24 @@
+<div class="login">
+
+  <header>
+    <a
+      routerLink="/"
+      class="link back"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page"
+    >
+      <lucide-angular name="arrow-left"></lucide-angular>
+      <span>Retour à l'accueil</span>
+    </a>
+  </header>
+  <div class="card">
+    <h1>Connexion</h1>
+    <form action="">
+      <app-input type="email" elId="email" placeholder="Adresse E-Mail"></app-input>
+      <app-input type="password" elId="password" placeholder="Mot de passe"></app-input>
+
+      <app-button type="submit" icon="log-in">Login</app-button>
+    </form>
+  </div>
+</div>

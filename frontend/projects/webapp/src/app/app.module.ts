@@ -11,9 +11,11 @@ import {
 import {NavBarComponent} from "@app/components/partials/navbar/navbar.component";
 import {InputComponent} from './components/forms/input/input.component';
 import {FormsModule} from "@angular/forms";
+import { LoginComponent } from './pages/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, ButtonComponent, NavBarComponent, LoadingBarIndicatorComponent, InputComponent],
+  declarations: [AppComponent, ButtonComponent, NavBarComponent, LoadingBarIndicatorComponent, InputComponent, LoginComponent, HomeComponent],
   imports: [BrowserModule, AppRoutingModule,
 
     LucideAngularModule.pick(icons), FormsModule],

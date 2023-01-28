@@ -1,6 +1,6 @@
 <app-loading-bar></app-loading-bar>
 
-<app-nav-bar></app-nav-bar>
+<app-nav-bar *ngIf="!hideNavbar"></app-nav-bar>
 
 <main>
   <router-outlet></router-outlet>

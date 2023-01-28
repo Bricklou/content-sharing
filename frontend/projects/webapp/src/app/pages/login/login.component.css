@@ -1,0 +1,56 @@
+.login {
+  @apply h-screen w-screen flex flex-col justify-center items-center;
+  @apply bg-firefly-800;
+
+  &:before {
+    @apply h-screen w-screen absolute top-0;
+    content: ' ';
+    mask-image: url("/assets/patterns/tic-tac-toe.svg");
+    mask-size: 5rem auto;
+    background-color: theme('colors.firefly.700');
+  }
+
+  header {
+    @apply z-10 absolute top-0 w-screen p-4;
+
+    lucide-angular {
+      @apply h-7 w-7;
+    }
+
+    .link {
+      @apply py-2 px-2 mx-1 flex text-white;
+      @apply border-transparent;
+      @apply transition-colors duration-100 ease-in-out;
+
+      &:hover {
+        @apply text-candlelight-500;
+      }
+
+      span {
+        @apply ml-2 text-lg;
+      }
+    }
+  }
+
+  .card {
+    @apply container py-6 md:py-4 px-8 text-white z-10;
+    @apply md:max-w-xl;
+
+    h1 {
+      @apply uppercase text-4xl mb-6;
+    }
+
+    app-input {
+      @apply mb-4;
+    }
+
+    app-button {
+      @apply w-full md:w-2/3 md:mx-auto block mt-8;
+    }
+
+    ::ng-deep app-button button {
+      @apply bg-pickled-bluewood-700 hover:bg-pickled-bluewood-600;
+      @apply text-candlelight-500;
+    }
+  }
+}
