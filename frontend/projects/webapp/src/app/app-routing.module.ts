@@ -11,9 +11,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    title: 'home'
   },
   {
     path: 'login',
+    title: 'login',
     component: LoginComponent,
     data: {
       hideNavbar: true
