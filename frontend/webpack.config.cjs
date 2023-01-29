@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 
 const config = (config, options, targetOptions) => {
   /*  module: {
@@ -16,25 +16,25 @@ const config = (config, options, targetOptions) => {
   }*/
 
   const out = config.module.rules.filter(
-    (item) =>
+    item =>
       item.test.test('style.css') ||
       item.test.test('style.scss') ||
       item.test.test('style.sass') ||
       item.test.test('style.less') ||
-      item.test.test('style.styl')
-  )
+      item.test.test('style.styl'),
+  );
 
   out.forEach(function (_, index, arr) {
     arr[index].rules.forEach(function (_, index2, arr2) {
-      const useList = []
+      const useList = [];
       if (arr2[index2].oneOf) {
         arr2[index2].oneOf.forEach(function (_, index3, arr3) {
-          useList.push(...arr3[index3].use)
-        })
+          useList.push(...arr3[index3].use);
+        });
       }
 
       if (arr2[index2].use) {
-        useList.push(...arr2[index2].use)
+        useList.push(...arr2[index2].use);
       }
 
       useList.forEach(function (_, index3, arr3) {
@@ -42,20 +42,20 @@ const config = (config, options, targetOptions) => {
           if (arr3[index3].options?.postcssOptions) {
             arr3[index3].options.postcssOptions.config = path.resolve(
               __dirname,
-              './postcss.config.cjs'
-            )
+              './postcss.config.cjs',
+            );
           }
         }
-      })
-    })
-  })
+      });
+    });
+  });
 
   config.resolve.alias = {
     '@': path.resolve(__dirname, './projects/webapp/src'),
-    '@app': path.resolve(__dirname, './projects/webapp/src/app')
-  }
+    '@app': path.resolve(__dirname, './projects/webapp/src/app'),
+  };
 
-  return config
-}
+  return config;
+};
 
-module.exports = config
+module.exports = config;

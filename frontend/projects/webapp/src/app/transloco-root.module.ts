@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {
   Translation,
   TRANSLOCO_CONFIG,
@@ -7,12 +7,11 @@ import {
   TranslocoLoader,
   TranslocoModule,
 } from '@ngneat/transloco';
-import {Injectable, isDevMode, NgModule} from '@angular/core';
+import { Injectable, isDevMode, NgModule } from '@angular/core';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
-  public constructor(private http: HttpClient) {
-  }
+  public constructor(private http: HttpClient) {}
 
   public getTranslation(lang: string) {
     return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
@@ -30,12 +29,11 @@ export class TranslocoHttpLoader implements TranslocoLoader {
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
         flatten: {
-          aot: !isDevMode()
-        }
+          aot: !isDevMode(),
+        },
       }),
     },
-    {provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader},
+    { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader },
   ],
 })
-export class TranslocoRootModule {
-}
+export class TranslocoRootModule {}

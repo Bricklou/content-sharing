@@ -7,7 +7,11 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {isPresent, LoadingBarEventType, LoadingBarService,} from '@app/services/loading-bar.service';
+import {
+  isPresent,
+  LoadingBarEventType,
+  LoadingBarService,
+} from '@app/services/loading-bar.service';
 
 @Component({
   selector: 'app-loading-bar',
@@ -19,7 +23,7 @@ export class LoadingBarIndicatorComponent implements OnInit, AfterViewInit {
   protected isTransition = 'none';
   private _progress = 0;
 
-  declare visible: boolean
+  declare visible: boolean;
 
   @Input()
   public set progress(progress: number) {
@@ -38,8 +42,7 @@ export class LoadingBarIndicatorComponent implements OnInit, AfterViewInit {
     public service: LoadingBarService,
     private _elmRef: ElementRef<LoadingBarIndicatorComponent>,
     private _changeDetectorRef: ChangeDetectorRef,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.service.events.subscribe(event => {

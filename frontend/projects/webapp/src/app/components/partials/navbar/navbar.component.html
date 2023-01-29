@@ -9,7 +9,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
           ariaCurrentWhenActive="page"
           [title]="t('home')">
-          <lucide-angular name="home"/>
+          <lucide-angular name="home" />
         </a>
 
         <app-input
@@ -21,7 +21,7 @@
           (blur)="toggleSearch()"
           [ngClass]="{ active: isSearching }"
           [(ngModel)]="searchValue"
-          (keydown.enter)="search()"/>
+          (keydown.enter)="search()" />
 
         <ng-template [ngIf]="searchValue.length > 0">
           <p (click)="toggleSearch()" class="search-preview" [ngClass]="{ active: !isSearching }">
@@ -29,14 +29,14 @@
           </p>
         </ng-template>
         <button type="button" class="link search-btn" (click)="toggleSearch()">
-          <lucide-angular [name]="isSearching ? 'x' : 'search'"/>
+          <lucide-angular [name]="isSearching ? 'x' : 'search'" />
         </button>
       </div>
 
       <div class="submenu menu-end" [ngClass]="{ active: isMenuOpened }">
         <div class="header-buttons">
           <button type="button" class="link">
-            <lucide-angular name="sun"/>
+            <lucide-angular name="sun" />
           </button>
           <button type="button" class="link close-btn" (click)="toggleMenu()">
             <lucide-angular name="x"></lucide-angular>
@@ -50,11 +50,11 @@
             *ngIf="isLoggedIn; else elseGuest"
             [title]="t('logout')"
             (click)="logout()">
-            <lucide-angular name="power" class="icon"/>
+            <lucide-angular name="power" class="icon" />
           </button>
           <ng-template #elseGuest>
             <a routerLink="/login" class="link" [title]="t('login')">
-              <lucide-angular name="log-in" class="icon"/>
+              <lucide-angular name="log-in" class="icon" />
               <span class="md:hidden">{{ t('login') }}</span>
             </a>
           </ng-template>
@@ -65,5 +65,5 @@
 </header>
 
 <button class="mobile-nav-btn" [ngClass]="{ active: isMenuOpened }" (click)="toggleMenu()">
-  <lucide-angular name="menu"/>
+  <lucide-angular name="menu" />
 </button>

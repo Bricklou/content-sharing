@@ -1,7 +1,7 @@
-import {AuthService} from '@app/services/auth.service';
-import {Component, OnDestroy, ViewChild} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { AuthService } from '@app/services/auth.service';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',

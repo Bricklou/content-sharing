@@ -37,7 +37,8 @@ export class AppComponent implements OnDestroy {
         ) {
           this.loadingBar.complete();
 
-          this.hideNavbar = route.root.firstChild?.snapshot.data['hideNavbar'] || false;
+          this.hideNavbar =
+            (route.root.firstChild?.snapshot.data['hideNavbar'] as boolean) || false;
         }
       },
       error: () => {

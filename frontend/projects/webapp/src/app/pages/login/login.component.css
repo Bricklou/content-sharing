@@ -5,7 +5,7 @@
   &:before {
     @apply h-screen w-screen absolute top-0 bg-firefly-700 bg-opacity-70;
     content: ' ';
-    mask-image: url("/assets/patterns/tic-tac-toe.svg");
+    mask-image: url('/assets/patterns/tic-tac-toe.svg');
     mask-size: 5rem auto;
   }
 

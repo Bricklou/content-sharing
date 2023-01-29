@@ -3,9 +3,7 @@
   "version": 1,
   "cli": {
     "packageManager": "pnpm",
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -24,13 +22,8 @@
             "main": "projects/webapp/src/main.ts",
             "polyfills": "projects/webapp/src/polyfills.ts",
             "tsConfig": "projects/webapp/tsconfig.app.json",
-            "assets": [
-              "projects/webapp/src/favicon.ico",
-              "projects/webapp/src/assets"
-            ],
-            "styles": [
-              "projects/webapp/src/styles.css"
-            ],
+            "assets": ["projects/webapp/src/favicon.ico", "projects/webapp/src/assets"],
+            "styles": ["projects/webapp/src/styles.css"],
             "scripts": [],
             "customWebpackConfig": {
               "path": "./webpack.config.cjs"
@@ -88,23 +81,15 @@
             "polyfills": "projects/webapp/src/polyfills.ts",
             "tsConfig": "projects/webapp/tsconfig.spec.json",
             "karmaConfig": "projects/webapp/karma.conf.js",
-            "assets": [
-              "projects/webapp/src/favicon.ico",
-              "projects/webapp/src/assets"
-            ],
-            "styles": [
-              "projects/webapp/src/styles.css"
-            ],
+            "assets": ["projects/webapp/src/favicon.ico", "projects/webapp/src/assets"],
+            "styles": ["projects/webapp/src/styles.css"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/webapp/**/*.ts",
-              "projects/webapp/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/webapp/**/*.ts", "projects/webapp/**/*.html"]
           }
         }
       }

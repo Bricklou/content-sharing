@@ -18,17 +18,10 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "es2022",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "paths": {
-      "@app/*": [
-        "./projects/webapp/src/app/*"
-      ],
-      "@/*": [
-        "./projects/webapp/src/*"
-      ]
+      "@app/*": ["./projects/webapp/src/app/*"],
+      "@/*": ["./projects/webapp/src/*"]
     }
   },
   "angularCompilerOptions": {
