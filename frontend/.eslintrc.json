@@ -18,6 +18,7 @@
         "eslint:recommended",
         "plugin:prettier/recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
@@ -38,7 +39,9 @@
             "style": "kebab-case"
           }
         ],
-        "prettier/prettier": ["error"]
+        "prettier/prettier": [
+          "error"
+        ]
       }
     },
     {

@@ -1,0 +1,11 @@
+{
+  "components.navbar.home": "Home",
+  "components.navbar.search_bar": "Search a game",
+  "components.navbar.logout": "Logout",
+  "components.navbar.login": "Login",
+  "pages.login.back_to_homepage": "Back to homepage",
+  "pages.login.title": "Login",
+  "pages.login.email": "E-Mail Address",
+  "pages.login.password": "Password",
+  "pages.login.submit": "Login"
+}

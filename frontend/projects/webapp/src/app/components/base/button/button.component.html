@@ -1,4 +1,9 @@
-<button class="button" [ngClass]="{dark}" [type]="type" (click)="onClick($event)" [disabled]="disabled">
+<button
+  class="button"
+  [ngClass]="{dark}"
+  [type]="type"
+  (click)="onClick($event)"
+  [disabled]="disabled">
   <lucide-angular *ngIf="icon" [name]="icon" class="icon"></lucide-angular>
   <ng-content></ng-content>
 </button>

@@ -1,0 +1,15 @@
+{
+  "*": [
+    "prettier --list-different",
+    "eslint"
+  ],
+  "src/assets/i18n/*.json": [
+    "transloco-validator"
+  ],
+  "*.*.{js,jsx,ts,tsx,md,html,css}": [
+    "prettier --write"
+  ],
+  "*.ts": [
+    "eslint"
+  ]
+}
