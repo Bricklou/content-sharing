@@ -7,11 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    title: 'home',
+    title: 'Home',
   },
   {
     path: 'login',
-    title: 'login',
+    title: 'Login',
     component: LoginComponent,
     data: {
       hideNavbar: true,

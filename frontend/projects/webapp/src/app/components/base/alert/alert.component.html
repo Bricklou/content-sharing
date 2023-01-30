@@ -1,0 +1,17 @@
+<div [ngClass]="type !== 'neutral' ? 'alert-' + type : ''" class="alert shadow-lg">
+  <div>
+    <ng-container [ngSwitch]="type">
+      <lucide-angular *ngSwitchCase="'success'" name="check-circle-2" />
+      <lucide-angular *ngSwitchCase="'info'" name="info" />
+      <lucide-angular *ngSwitchCase="'warning'" name="alert-triangle" />
+      <lucide-angular *ngSwitchCase="'error'" name="x-circle" />
+      <lucide-angular *ngSwitchCase="'neutral'" name="info" />
+    </ng-container>
+    <span>
+      <ng-content></ng-content>
+    </span>
+    <button (click)="_close()" *ngIf="closable" class="close-btn">
+      <lucide-angular name="x" />
+    </button>
+  </div>
+</div>

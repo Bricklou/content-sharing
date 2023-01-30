@@ -12,11 +12,30 @@
   </header>
   <div class="card">
     <h1>{{ t('title') }}</h1>
-    <form action="">
-      <app-input type="email" elId="email" [placeholder]="t('email')"></app-input>
-      <app-input type="password" elId="password" [placeholder]="t('password')"></app-input>
 
-      <app-button type="submit" icon="log-in">{{ t('submit') }}</app-button>
+    <div class="alert" *ngIf="error">
+      <app-alert type="error" [closable]="true" (alertClose)="clearError()">
+        {{ error }}
+      </app-alert>
+    </div>
+
+    <form (ngSubmit)="login($event)" [formGroup]="loginForm">
+      <app-input
+        type="text"
+        elId="username"
+        [placeholder]="t('username')"
+        formControlName="username"
+        [ngClass]="{ invalid: formControls.username.errors }" />
+      <app-input
+        type="password"
+        elId="password"
+        [placeholder]="t('password')"
+        formControlName="password"
+        [ngClass]="{ invalid: formControls.password.errors }" />
+
+      <app-button type="submit" icon="log-in" [disabled]="loginForm.invalid">
+        {{ t('submit') }}
+      </app-button>
     </form>
   </div>
 </div>
