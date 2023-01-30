@@ -9,6 +9,7 @@ import {
   Router,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,9 @@ export class AppComponent implements OnDestroy {
     private loadingBar: LoadingBarService,
     private router: Router,
     private route: ActivatedRoute,
+    private auth: AuthService,
   ) {
+    this.auth.refresh().subscribe();
     this.sub = this.router.events.subscribe({
       next: event => {
         if (event instanceof NavigationStart) {
