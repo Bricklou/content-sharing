@@ -36,7 +36,7 @@
     @apply md:max-w-xl;
 
     h1 {
-      @apply uppercase text-4xl mb-6;
+      @apply uppercase text-4xl mb-6 text-center md:text-left;
     }
   }
 

@@ -44,14 +44,14 @@
         </div>
 
         <div class="menu-content">
-          <button
-            type="button"
-            class="link"
-            *ngIf="isLoggedIn; else elseGuest"
-            [title]="t('logout')"
-            (click)="logout()">
-            <lucide-angular name="power" class="icon" />
-          </button>
+          <ng-container *ngIf="isLoggedIn; else elseGuest">
+            <button type="button" class="link logout-btn" [title]="t('logout')" (click)="logout()">
+              <span class="avatar">
+                <lucide-angular name="user" class="icon" />
+              </span>
+              <span class="md:hidden">{{ currentUser?.username }}</span>
+            </button>
+          </ng-container>
           <ng-template #elseGuest>
             <a routerLink="/login" class="link" [title]="t('login')">
               <lucide-angular name="log-in" class="icon" />

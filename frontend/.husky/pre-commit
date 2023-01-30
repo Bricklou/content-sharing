@@ -2,7 +2,8 @@
 
 . "$(dirname "$0")/_/husky.sh"
 
+exec >/dev/tty 2>&1
+
 cd frontend
 pnpx lint-staged
-pnpm run format
 pnpm run lint

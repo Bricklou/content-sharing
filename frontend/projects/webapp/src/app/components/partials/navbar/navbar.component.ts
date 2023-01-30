@@ -2,6 +2,7 @@ import { AuthService } from '@app/services/auth.service';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { User } from '@app/interfaces/User';
 
 @Component({
   selector: 'app-nav-bar',
@@ -27,7 +28,11 @@ export class NavBarComponent implements OnDestroy {
   }
 
   protected get isLoggedIn(): boolean {
-    return false;
+    return this.auth.isLoggedIn;
+  }
+
+  protected get currentUser(): User | undefined {
+    return this.auth.currentUser;
   }
 
   public ngOnDestroy() {
@@ -35,7 +40,7 @@ export class NavBarComponent implements OnDestroy {
   }
 
   protected logout(): void {
-    // log user out
+    this.auth.logout().subscribe();
   }
 
   protected toggleSearch(): void {
