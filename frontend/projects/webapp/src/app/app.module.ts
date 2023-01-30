@@ -8,11 +8,13 @@ import { icons, LucideAngularModule } from 'lucide-angular';
 import { LoadingBarIndicatorComponent } from './components/partials/loading-bar-indicator/loading-bar-indicator.component';
 import { NavBarComponent } from '@app/components/partials/navbar/navbar.component';
 import { InputComponent } from './components/forms/input/input.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
+import { CsrfInterceptor } from './interceptors/csrf.interceptor';
+import { AlertComponent } from './components/base/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -23,16 +25,19 @@ import { TranslocoRootModule } from './transloco-root.module';
     InputComponent,
     LoginComponent,
     HomeComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),
     LucideAngularModule.pick(icons),
     FormsModule,
-    HttpClientModule,
     TranslocoRootModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

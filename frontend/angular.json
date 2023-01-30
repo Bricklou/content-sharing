@@ -72,6 +72,9 @@
               "browserTarget": "webapp:build:development"
             }
           },
+          "options": {
+            "proxyConfig": "proxy.config.json"
+          },
           "defaultConfiguration": "development"
         },
         "test": {

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve webapp",
+    "start": "ng serve webapp --proxy-config proxy.config.json",
     "build": "ng build",
     "build:prod": "ng build --prod && npm run transloco:optimize",
     "watch": "ng build --watch --configuration development",

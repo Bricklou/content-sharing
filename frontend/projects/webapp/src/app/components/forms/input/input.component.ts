@@ -14,7 +14,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.css'],
   providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => InputComponent), multi: true },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true,
+    },
   ],
 })
 export class InputComponent implements ControlValueAccessor {
@@ -25,10 +29,11 @@ export class InputComponent implements ControlValueAccessor {
   @Input() public disabled?: boolean;
   @Input() public name!: string;
   @Input() public required = false;
-  protected _value = '';
-
-  @ViewChild('input', { static: true })
+  @Output() public inputModelChange: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('input')
   protected inputEl!: ElementRef<HTMLInputElement>;
+
+  protected _value = '';
 
   @Input()
   public get value(): string {
@@ -37,15 +42,16 @@ export class InputComponent implements ControlValueAccessor {
 
   public set value(value: string) {
     this._value = value;
-    if (this.propagateChange) {
-      this.propagateChange(this._value);
-    }
+    this.onChange(this._value);
   }
 
-  @Output() public inputModelChange: EventEmitter<string> = new EventEmitter<string>();
+  /*eslint-disable @typescript-eslint/no-empty-function*/
 
-  public propagateChange?: (_: string) => void;
-  protected propagateBlur?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onChange = (_: string) => {};
+  protected onTouch = () => {};
+
+  /* eslint-enable @typescript-eslint/no-empty-function */
 
   public writeValue(value?: string): void {
     if (value) {
@@ -54,11 +60,11 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   public registerOnChange(fn: (_: string) => void): void {
-    this.propagateChange = fn;
+    this.onChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.propagateBlur = fn;
+    this.onTouch = fn;
   }
 
   public setDisabledState?(isDisabled: boolean): void {
@@ -69,10 +75,6 @@ export class InputComponent implements ControlValueAccessor {
     setTimeout(() => {
       this.inputEl.nativeElement.focus();
     });
-  }
-
-  protected onBlur() {
-    this.propagateBlur?.();
   }
 
   public blur() {

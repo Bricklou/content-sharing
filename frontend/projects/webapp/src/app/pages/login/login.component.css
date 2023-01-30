@@ -38,18 +38,27 @@
     h1 {
       @apply uppercase text-4xl mb-6;
     }
+  }
 
-    app-input {
-      @apply mb-4;
-    }
+  app-input {
+    @apply mb-4;
+  }
 
-    app-button {
-      @apply w-full md:w-2/3 md:mx-auto block mt-8;
-    }
+  app-button {
+    @apply w-full md:w-2/3 md:mx-auto block mt-8;
+  }
 
-    ::ng-deep app-button button {
-      @apply bg-pickled-bluewood-700 hover:bg-pickled-bluewood-600;
-      @apply text-candlelight-500;
+  ::ng-deep app-button button {
+    @apply bg-pickled-bluewood-700 hover:bg-pickled-bluewood-600;
+    @apply text-candlelight-500;
+
+    &:disabled,
+    &:disabled:hover {
+      @apply bg-pickled-bluewood-300 text-opacity-80;
     }
+  }
+
+  .alert {
+    @apply mb-8;
   }
 }

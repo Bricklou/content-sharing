@@ -1,0 +1,55 @@
+.alert {
+  @apply bg-pickled-bluewood-700 text-white p-4 rounded-md mb-2;
+
+  lucide-angular {
+    @apply w-6 h-6;
+  }
+
+  lucide-angular {
+    @apply mr-4 text-candlelight-400;
+  }
+
+  &-info {
+    @apply bg-blue-400 text-firefly;
+
+    lucide-angular {
+      @apply text-firefly;
+    }
+  }
+
+  &-success {
+    @apply bg-green-400 text-green-900;
+
+    lucide-angular {
+      @apply text-green-900;
+    }
+  }
+
+  &-warning {
+    @apply bg-yellow-400 text-yellow-900;
+
+    lucide-angular {
+      @apply text-yellow-900;
+    }
+  }
+
+  &-error {
+    @apply bg-red-500 text-red-100;
+
+    lucide-angular {
+      @apply text-red-100;
+    }
+  }
+
+  div {
+    @apply flex items-center h-full w-full;
+  }
+
+  span {
+    @apply flex-1;
+  }
+
+  .close-btn {
+    @apply w-8 h-8 py-1 hover:bg-white hover:bg-opacity-10 rounded-full text-center;
+  }
+}

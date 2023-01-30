@@ -9,7 +9,7 @@
     [attr.disabled]="disabled"
     [required]="required"
     [(ngModel)]="value"
-    (blur)="onBlur()"
+    (blur)="onTouch()"
     #input
     placeholder="{{ placeholder }}" />
 </div>

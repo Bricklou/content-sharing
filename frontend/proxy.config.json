@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "http://127.0.0.1:8000",
+    "secure": false,
+    "headers": {
+      "Connection": "keep-alive"
+    },
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

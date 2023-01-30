@@ -5,7 +5,7 @@
   "components.navbar.login": "Connexion",
   "pages.login.back_to_homepage": "Retour à l'accueil",
   "pages.login.title": "Connexion",
-  "pages.login.email": "Adresse E-Mail",
+  "pages.login.username": "Nom d'utilisateur",
   "pages.login.password": "Mot de passe",
   "pages.login.submit": "Connexion"
 }
