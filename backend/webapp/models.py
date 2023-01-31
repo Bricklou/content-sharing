@@ -1,7 +1,12 @@
+from io import BytesIO
+
 from PIL import Image
 from django.contrib.auth.models import AbstractUser
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from webapp.utils.storage import OverwriteStorage
 
 
 # Create your models here.
@@ -43,3 +48,56 @@ class User(AbstractUser):
     last_name = None
 
     theme = models.CharField(max_length=5, choices=Theme.choices, default=Theme.LIGHT)
+
+    avatar = models.ImageField(upload_to=user_directory_path, default=None, storage=OverwriteStorage(), null=True,
+                               blank=True)
+
+    def set_image(self, desired_width, desired_height):
+        try:
+            this = User.objects.get(id=self.id)
+        except User.DoesNotExist:
+            pass
+        else:
+            # will not resize or set to new image (this avoids setting image every single time you edit and save
+            if this.avatar == self.avatar and \
+                    (self.avatar.width, self.avatar.height) == (desired_width, desired_height):
+                return
+
+        im = Image.open(BytesIO(self.avatar.read()))
+
+        resized_image = resize_with_white_background(
+            pil_image=im,
+            desired_width=desired_width,
+            desired_height=desired_height
+        )
+
+        # output (file like object)
+        output = BytesIO()
+
+        # save image into file-like object
+        resized_image.save(output, format='PNG', quality=94)
+
+        # get size of file
+        a_size = output.tell()
+
+        # reset to beginning of file-like object
+        output.seek(0)
+
+        self.avatar.file = InMemoryUploadedFile(
+            output,
+            'ImageField',
+            f"{self.avatar.name.split('.')[0]}.png",
+            'image/png',
+            a_size,
+            None,
+
+        )
+
+    def save(self, *args, **kwargs):
+        if self.avatar:
+            self.set_image(
+                desired_width=300,
+                desired_height=300
+            )
+
+        super().save(*args, **kwargs)
