@@ -82,8 +82,8 @@ export class AuthService {
   }
 
   private setUser(u: User | undefined): void {
-    console.log(this.currentUser);
     this.user.next(u);
+    console.log(u);
     this.state.set(STATE_KEY_USER, u);
   }
 }

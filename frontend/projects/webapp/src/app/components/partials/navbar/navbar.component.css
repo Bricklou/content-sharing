@@ -101,18 +101,23 @@ lucide-angular {
 }
 
 .logout-btn {
-  @apply flex items-center pr-8 mx-auto;
+  @apply flex items-center pr-8 mx-auto relative;
   @apply md:p-0;
 
   .avatar {
-    @apply flex py-2 px-2 mx-1 bg-pickled-bluewood-700;
-    @apply hover:bg-pickled-bluewood-600 hover:rounded-lg;
+    @apply rounded-full flex mx-1 w-11 h-11;
     @apply transition-[border-radius] duration-150 ease-in-out;
+    @apply hover:rounded-lg;
+  }
+
+  span.avatar {
+    @apply p-2 bg-pickled-bluewood-700;
+    @apply hover:bg-pickled-bluewood-600;
     border-radius: 2rem;
   }
 
   span {
-    @apply uppercase text-2xl;
+    @apply text-2xl;
   }
 }
 
