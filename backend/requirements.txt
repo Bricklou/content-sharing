@@ -2,3 +2,4 @@ django
 djangorestframework
 Pillow
 django-extensions
+django-image-uploader-widget
