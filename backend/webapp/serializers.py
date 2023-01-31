@@ -7,7 +7,7 @@ from webapp.models import User
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'groups',
+        fields = ['username', 'avatar', 'email', 'groups',
                   'is_staff', 'is_active', 'is_superuser']
 
 

@@ -1,9 +1,12 @@
+import time
 from io import BytesIO
 
 from PIL import Image
 from django.contrib.auth.models import AbstractUser
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
+from django.db.models.signals import post_init, post_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 from webapp.utils.storage import OverwriteStorage
@@ -11,7 +14,8 @@ from webapp.utils.storage import OverwriteStorage
 
 # Create your models here.
 def user_directory_path(instance, _: str) -> str:
-    return 'avatars/{0}/{1}'.format(instance.id, "avatar.png")
+    timestamp = int(round(time.time()))
+    return 'avatars/{0}/avatar_{1}.png'.format(instance.id, timestamp)
 
 
 def resize_with_white_background(pil_image: Image.Image, desired_width, desired_height):
@@ -86,7 +90,7 @@ class User(AbstractUser):
         self.avatar.file = InMemoryUploadedFile(
             output,
             'ImageField',
-            f"{self.avatar.name.split('.')[0]}.png",
+            f"{self.avatar.name.split('.')[0]}__.png",
             'image/png',
             a_size,
             None,
@@ -101,3 +105,15 @@ class User(AbstractUser):
             )
 
         super().save(*args, **kwargs)
+
+
+@receiver(post_init, sender=User)
+def backup_image_path(sender, instance, **kwargs):
+    instance._current_imagen_file = instance.avatar
+
+
+@receiver(post_save, sender=User)
+def delete_old_image(sender, instance, **kwargs):
+    if hasattr(instance, '_current_imagen_file'):
+        if instance._current_imagen_file != instance.avatar:
+            instance._current_imagen_file.delete(save=False)

@@ -27,10 +27,6 @@ export class NavBarComponent implements OnDestroy {
     });
   }
 
-  protected get isLoggedIn(): boolean {
-    return this.auth.isLoggedIn;
-  }
-
   protected get currentUser(): User | undefined {
     return this.auth.currentUser;
   }

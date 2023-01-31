@@ -44,12 +44,19 @@
         </div>
 
         <div class="menu-content">
-          <ng-container *ngIf="isLoggedIn; else elseGuest">
+          <ng-container *ngIf="currentUser; else elseGuest">
             <button type="button" class="link logout-btn" [title]="t('logout')" (click)="logout()">
-              <span class="avatar">
-                <lucide-angular name="user" class="icon" />
-              </span>
-              <span class="md:hidden">{{ currentUser?.username }}</span>
+              <img
+                *ngIf="currentUser.avatar; else elseNotAvatar"
+                [src]="currentUser.avatar"
+                [alt]="currentUser.username + '\'s avatar'"
+                class="avatar" />
+              <ng-template #elseNotAvatar>
+                <span class="avatar">
+                  <lucide-angular name="user" class="icon" />
+                </span>
+              </ng-template>
+              <span class="md:hidden">{{ currentUser.username }}</span>
             </button>
           </ng-container>
           <ng-template #elseGuest>

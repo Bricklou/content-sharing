@@ -5,4 +5,6 @@ export interface User {
   email_verified_at: Date | undefined;
   create_at: Date;
   update_at: Date;
+
+  avatar: string | null;
 }
