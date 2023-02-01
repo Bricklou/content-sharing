@@ -1,67 +1,67 @@
-<header class="navbar-container" *transloco="let t; read: 'components.navbar'">
+<header *transloco="let t; read: 'components.navbar'" class="navbar-container">
   <div class="navbar">
     <nav class="menu" role="menubar">
       <div class="submenu menu-start">
         <a
-          routerLink="/"
-          class="link"
-          routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
+          [title]="t('home')"
           ariaCurrentWhenActive="page"
-          [title]="t('home')">
+          class="link"
+          routerLink="/"
+          routerLinkActive="active">
           <lucide-angular name="home" />
         </a>
 
         <app-input
-          elId="search-bar"
-          type="search"
-          class="search-bar"
-          [placeholder]="t('search_bar')"
           #searchElement
           (blur)="toggleSearch()"
-          [ngClass]="{ active: isSearching }"
+          (keydown.enter)="search()"
           [(ngModel)]="searchValue"
-          (keydown.enter)="search()" />
+          [ngClass]="{ active: isSearching }"
+          [placeholder]="t('search_bar')"
+          class="search-bar"
+          elId="search-bar"
+          type="search" />
 
         <ng-template [ngIf]="searchValue.length > 0">
-          <p (click)="toggleSearch()" class="search-preview" [ngClass]="{ active: !isSearching }">
+          <p (click)="toggleSearch()" [ngClass]="{ active: !isSearching }" class="search-preview">
             {{ searchValue }}
           </p>
         </ng-template>
-        <button type="button" class="link search-btn" (click)="toggleSearch()">
+        <button (click)="toggleSearch()" class="link search-btn" type="button">
           <lucide-angular [name]="isSearching ? 'x' : 'search'" />
         </button>
       </div>
 
-      <div class="submenu menu-end" [ngClass]="{ active: isMenuOpened }">
+      <div [ngClass]="{ active: isMenuOpened }" class="submenu menu-end">
         <div class="header-buttons">
-          <button type="button" class="link">
+          <button class="link" type="button">
             <lucide-angular name="sun" />
           </button>
-          <button type="button" class="link close-btn" (click)="toggleMenu()">
+          <button (click)="toggleMenu()" class="link close-btn" type="button">
             <lucide-angular name="x"></lucide-angular>
           </button>
         </div>
 
         <div class="menu-content">
           <ng-container *ngIf="currentUser; else elseGuest">
-            <button type="button" class="link logout-btn" [title]="t('logout')" (click)="logout()">
-              <img
-                *ngIf="currentUser.avatar; else elseNotAvatar"
-                [src]="currentUser.avatar"
-                [alt]="currentUser.username + '\'s avatar'"
-                class="avatar" />
-              <ng-template #elseNotAvatar>
-                <span class="avatar">
-                  <lucide-angular name="user" class="icon" />
-                </span>
-              </ng-template>
+            <button (click)="logout()" [title]="t('logout')" class="link logout-btn" type="button">
+              <span class="avatar">
+                <img
+                  *ngIf="currentUser.avatar; else elseNotAvatar"
+                  [alt]="currentUser.username + '\'s avatar'"
+                  [src]="currentUser.avatar" />
+
+                <ng-template #elseNotAvatar>
+                  <lucide-angular class="icon" name="user" />
+                </ng-template>
+              </span>
               <span class="md:hidden">{{ currentUser.username }}</span>
             </button>
           </ng-container>
           <ng-template #elseGuest>
-            <a routerLink="/login" class="link" [title]="t('login')">
-              <lucide-angular name="log-in" class="icon" />
+            <a [title]="t('login')" class="link" routerLink="/login">
+              <lucide-angular class="icon" name="log-in" />
               <span class="md:hidden">{{ t('login') }}</span>
             </a>
           </ng-template>
@@ -71,6 +71,6 @@
   </div>
 </header>
 
-<button class="mobile-nav-btn" [ngClass]="{ active: isMenuOpened }" (click)="toggleMenu()">
+<button (click)="toggleMenu()" [ngClass]="{ active: isMenuOpened }" class="mobile-nav-btn">
   <lucide-angular name="menu" />
 </button>

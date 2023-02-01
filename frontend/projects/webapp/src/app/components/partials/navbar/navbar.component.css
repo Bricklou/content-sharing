@@ -105,15 +105,19 @@ lucide-angular {
   @apply md:p-0;
 
   .avatar {
-    @apply rounded-full flex mx-1 w-11 h-11;
-    @apply transition-[border-radius] duration-150 ease-in-out;
+    @apply rounded-full block mx-1 w-11 h-11;
+    @apply transition-all duration-150 ease-in-out;
     @apply hover:rounded-lg;
-  }
 
-  span.avatar {
-    @apply p-2 bg-pickled-bluewood-700;
+    @apply will-change-transform transform-gpu overflow-hidden;
+
+    @apply bg-pickled-bluewood-700;
     @apply hover:bg-pickled-bluewood-600;
-    border-radius: 2rem;
+    border-radius: 50%;
+
+    lucide-angular {
+      @apply m-2;
+    }
   }
 
   span {
