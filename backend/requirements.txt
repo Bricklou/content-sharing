@@ -3,3 +3,4 @@ djangorestframework
 Pillow
 django-extensions
 django-image-uploader-widget
+django-preferences
