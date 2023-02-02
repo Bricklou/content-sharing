@@ -61,4 +61,41 @@
   .alert {
     @apply mb-8;
   }
+
+  .third-parties-auth {
+    @apply border-t border-pickled-bluewood-300 mt-8;
+    @apply flex flex-col;
+
+    app-button {
+      .icon {
+        @apply mr-2 fill-candlelight-400;
+      }
+
+      ::ng-deep &.discord-btn {
+        button {
+          background-color: hsl(235, 85.6%, 64.7%);
+
+          &:hover {
+            background-color: hsl(235, 51.4%, 52.4%);
+          }
+        }
+
+        .icon {
+          @apply h-6;
+        }
+      }
+
+      ::ng-deep &.github-btn button {
+        @apply bg-gray-900 hover:bg-gray-800 text-white font-bold;
+
+        .icon {
+          @apply fill-white h-6 !important;
+        }
+
+        .brand {
+          @apply h-4;
+        }
+      }
+    }
+  }
 }

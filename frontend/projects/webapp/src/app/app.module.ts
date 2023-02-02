@@ -15,6 +15,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angu
 import { TranslocoRootModule } from './transloco-root.module';
 import { CsrfInterceptor } from './interceptors/csrf.interceptor';
 import { AlertComponent } from './components/base/alert/alert.component';
+import { discord, github, NgxSimpleIconsModule } from 'ngx-simple-icons';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AlertComponent } from './components/base/alert/alert.component';
     HttpClientModule,
     HttpClientXsrfModule.withOptions({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),
     LucideAngularModule.pick(icons),
+    NgxSimpleIconsModule.pick({ discord, github }),
     FormsModule,
     TranslocoRootModule,
     ReactiveFormsModule,
