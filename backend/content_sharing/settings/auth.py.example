@@ -1,0 +1,19 @@
+# Only keep what you need
+WEBAPP_OAUTH2 = {
+    'PASSWORD': {
+        # Useless, it is already by default, use it only to change it to `False`
+        'ENABLED': True
+    },
+    'DISCORD': {
+        'ENABLED': False,
+        'CLIENT_ID': "",
+        'CLIENT_SECRET': "",
+        'REDIRECT_URI': ""
+    },
+    'GITHUB': {
+        'ENABLED': False,
+        'CLIENT_ID': "",
+        'CLIENT_SECRET': "",
+        'REDIRECT_URI': ""
+    }
+}

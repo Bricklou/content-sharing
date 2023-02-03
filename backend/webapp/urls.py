@@ -4,6 +4,7 @@ from django.urls import re_path, path, include
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from . import views
 from .auth import urls as auth_urls
 
 
@@ -21,6 +22,9 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
 
     # Authentication API
     path('api/', include(auth_urls.auth_patterns)),
+
+    # Application settings route
+    path('api/config', views.app_config, name='app_config'),
 
     # API 404 route
     re_path(r'api/?.*', custom_404),
