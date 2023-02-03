@@ -4,3 +4,4 @@ Pillow
 django-extensions
 django-image-uploader-widget
 django-preferences
+-e git+https://github.com/pawamoy/django-appsettings.git@master#egg=django-app-settings
