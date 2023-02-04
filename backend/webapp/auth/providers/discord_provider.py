@@ -39,7 +39,6 @@ class DiscordProvider(Provider):
 
         provided_user = UserAuth.objects.filter(
             remote_user_id=json_user_data['id'],
-            remote_user_email=json_user_data['email'],
             provider=UserAuth.AuthProvider.DISCORD,
         ).first()
 
