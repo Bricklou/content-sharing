@@ -10,6 +10,7 @@ from webapp.serializers import UserSerializer
 from webapp.utils.permissions import IsAuthenticatedNotPost
 from .providers.provider import Provider
 from .serializers import UserLoginSerializer
+from ..apps import logger
 from ..settings import webapp_settings
 
 # OAuh2 Providers
@@ -110,6 +111,9 @@ class OAuth2View(APIView):
                 return Response({"detail": "Success", "user": serialized_user.data})
 
             except Exception as e:
-                return Response({"detail": str(e)}, status=400)
+                logger.error(f'Failed to authenticate user: {e}')
+                return Response({
+                    "detail": "Failed to authenticate user. If the problem persists, contact the administrator"
+                }, status=400)
 
         return Response({"detail": "Unknown auth provider"}, status=400)
