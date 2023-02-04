@@ -10,15 +10,15 @@ from webapp.serializers import UserSerializer
 from webapp.utils.permissions import IsAuthenticatedNotPost
 from .providers.provider import Provider
 from .serializers import UserLoginSerializer
-from ..models import User
 from ..settings import webapp_settings
 
 # OAuh2 Providers
 providers: dict[str, Provider] = {}
 
 if webapp_settings.is_provider_enabled('github'):
-    # from .providers.github_provider import GithubProvider
-    # providers["github"] = GithubProvider()
+    from .providers.github_provider import GithubProvider
+
+    providers["github"] = GithubProvider()
     pass
 if webapp_settings.is_provider_enabled('discord'):
     from .providers.discord_provider import DiscordProvider
@@ -100,12 +100,10 @@ class OAuth2View(APIView):
 
             try:
                 token = providers[provider].token(url)
-                oauth_user = providers[provider].get_user()
+                user = providers[provider].get_user()
 
-                if not oauth_user:
+                if not user:
                     raise Exception("Invalid user")
-
-                user = User.objects.filter(email=oauth_user['email']).first()
 
                 login(request, user)
                 serialized_user = UserSerializer(user)

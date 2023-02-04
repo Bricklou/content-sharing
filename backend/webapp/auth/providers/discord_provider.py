@@ -1,13 +1,13 @@
 from requests_oauthlib import OAuth2Session
 
 from webapp.auth.providers.provider import Provider
+from webapp.models.user_auth import UserAuth
 from webapp.settings import webapp_settings
 
 
 class DiscordProvider(Provider):
     _BASE_AUTHORIZATION_URL = "https://discord.com/api/oauth2/authorize"
     _TOKEN_URL = "https://discord.com/api/oauth2/token"
-    _TOKEN_REVOKE_URL = "https://discord.com/api/oauth2/token/revoke"
     _USER_URL = "https://discord.com/api/users/@me"
 
     __session: OAuth2Session
@@ -35,5 +35,15 @@ class DiscordProvider(Provider):
         return token
 
     def get_user(self):
-        user = self.__session.get(self._USER_URL)
-        return user.json()
+        json_user_data = self.__session.get(self._USER_URL).json()
+
+        provided_user = UserAuth.objects.filter(
+            remote_user_id=json_user_data['id'],
+            remote_user_email=json_user_data['email'],
+            provider=UserAuth.AuthProvider.DISCORD,
+        ).first()
+
+        if not provided_user:
+            return None
+
+        return provided_user.user
