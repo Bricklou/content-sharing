@@ -16,7 +16,6 @@ class UserAuth(models.Model):
     provider = models.CharField(max_length=20, choices=AuthProvider.choices)
 
     remote_user_id = models.CharField(max_length=255)
-    remote_user_email = models.CharField(max_length=255)
 
     def __repr__(self):
         return f'<UserAuth {self.provider} {self.remote_user_id}>'
