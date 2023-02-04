@@ -1,12 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { User } from '@app/interfaces/User';
-import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
+import { BehaviorSubject, catchError, map, Observable, throwError, timeout } from 'rxjs';
+import { OAuthProviders } from '@app/interfaces/AppConfig';
 
 interface UserLogin {
   username: string;
@@ -38,7 +35,7 @@ export class AuthService {
   }
 
   public login(userLogin: UserLogin): Observable<void> {
-    return this.http.post<UserResponse>('/api/auth', userLogin, httpOptions).pipe(
+    return this.http.post<UserResponse>('/api/auth', userLogin).pipe(
       catchError(this.httpError),
       map(u => {
         this.setUser(u.user);
@@ -46,8 +43,29 @@ export class AuthService {
     );
   }
 
+  public loginWithOAuth2(provider: OAuthProviders, code: string, state: string): Observable<void> {
+    return this.http
+      .post<UserResponse>(
+        `/api/oauth2`,
+        {},
+        {
+          params: {
+            provider,
+            code,
+            state,
+          },
+        },
+      )
+      .pipe(
+        catchError(this.httpError),
+        map(u => {
+          this.setUser(u.user);
+        }),
+      );
+  }
+
   public logout(): Observable<void> {
-    return this.http.delete<void>('/api/auth', httpOptions).pipe(
+    return this.http.delete<void>('/api/auth').pipe(
       catchError(this.httpError),
       map(() => {
         this.setUser(undefined);
@@ -73,7 +91,7 @@ export class AuthService {
   public refresh(): Observable<void> {
     this.user.next(this.state.get(STATE_KEY_USER, undefined));
 
-    return this.http.get<UserResponse>('/api/auth', httpOptions).pipe(
+    return this.http.get<UserResponse>('/api/auth').pipe(
       catchError(this.httpError),
       map(u => {
         this.setUser(u.user);
@@ -83,7 +101,14 @@ export class AuthService {
 
   private setUser(u: User | undefined): void {
     this.user.next(u);
-    console.log(u);
     this.state.set(STATE_KEY_USER, u);
+  }
+
+  public getOAuth2Url(provider: OAuthProviders): Observable<string> {
+    return this.http.get<{ url: string }>(`/api/oauth2`, { params: { provider } }).pipe(
+      catchError(this.httpError),
+      timeout(5000),
+      map(u => u.url),
+    );
   }
 }

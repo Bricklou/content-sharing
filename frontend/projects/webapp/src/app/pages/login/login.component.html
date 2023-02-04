@@ -1,3 +1,4 @@
+<script src="login.component.ts"></script>
 <div class="login" *transloco="let t; read: 'pages.login'">
   <header>
     <a
@@ -10,7 +11,7 @@
       <span>{{ t('back_to_homepage') }}</span>
     </a>
   </header>
-  <div class="card">
+  <div class="card" *ngIf="is_config_valid(); else elseNoConfig">
     <h1>{{ t('title') }}</h1>
 
     <div class="alert" *ngIf="error">
@@ -19,7 +20,7 @@
       </app-alert>
     </div>
 
-    <form (ngSubmit)="login($event)" [formGroup]="loginForm">
+    <form (ngSubmit)="login($event)" [formGroup]="loginForm" *ngIf="is_auth_enabled('password')">
       <app-input
         type="text"
         elId="username"
@@ -33,19 +34,56 @@
         formControlName="password"
         [ngClass]="{ invalid: formControls.password.errors }" />
 
-      <app-button type="submit" icon="log-in" [disabled]="loginForm.invalid">
+      <app-button
+        type="submit"
+        icon="log-in"
+        [disabled]="loginForm.invalid || loading !== undefined">
         {{ t('submit') }}
       </app-button>
     </form>
 
-    <section class="third-parties-auth">
-      <app-button type="button" class="discord-btn">
-        <img src="/assets/images/discod_logo.svg" alt="Discord" class="icon" />
+    <div class="divider" *ngIf="has_third_parties() && is_auth_enabled('password')">
+      {{ t('divider_or') }}
+    </div>
+
+    <section class="third-parties-auth" *ngIf="has_third_parties()">
+      <p class="title">{{ t('use_third_parties') }}</p>
+
+      <app-button
+        type="button"
+        class="discord-btn"
+        *ngIf="is_auth_enabled('discord')"
+        (btnClick)="fetch_authorization_url($event, 'discord')"
+        [disabled]="loading !== undefined">
+        <lucide-angular
+          name="loader-2"
+          class="loading-icon"
+          *ngIf="loading === 'discord'; else elseNoLoading" />
+        <ng-template #elseNoLoading>
+          <img src="/assets/images/discod_logo.svg" alt="Discord" class="icon" />
+        </ng-template>
       </app-button>
-      <app-button type="button" class="github-btn">
-        <si icon="github" class="icon" />
-        <img src="/assets/images/GitHub_Logo.svg" alt="Github" class="brand" />
+
+      <app-button
+        type="button"
+        class="github-btn"
+        *ngIf="is_auth_enabled('github')"
+        (btnClick)="fetch_authorization_url($event, 'github')"
+        [disabled]="loading !== undefined">
+        <lucide-angular
+          name="loader-2"
+          class="loading-icon"
+          *ngIf="loading === 'github'; else elseNoLoading" />
+        <ng-template #elseNoLoading>
+          <si icon="github" class="icon" />
+          <img src="/assets/images/GitHub_Logo.svg" alt="Github" class="brand" />
+        </ng-template>
       </app-button>
     </section>
   </div>
+  <ng-template #elseNoConfig>
+    <div class="card">
+      <p class="error">{{ t('no_config') }}</p>
+    </div>
+  </ng-template>
 </div>

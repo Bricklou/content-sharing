@@ -39,5 +39,14 @@ class WebAppSettings(appsettings.AppSettings):
         )
     )
 
+    def is_provider_enabled(self, auth_type: str) -> bool:
+        try:
+            return self.auth.get(auth_type)['enable']
+        except KeyError:
+            return False
+
+    def get_enabled_auth(self) -> list[str]:
+        return [n for n in self.auth.keys() if self.is_provider_enabled(n)]
+
 
 webapp_settings = WebAppSettings()
