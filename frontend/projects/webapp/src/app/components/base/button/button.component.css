@@ -2,7 +2,7 @@
   @apply px-4 py-2 rounded-lg shadow-md bg-white text-teal-500 w-full;
   @apply transition-colors duration-150 ease-in-out inline-flex justify-center items-center;
 
-  &:hover {
+  &:hover:not(:disabled) {
     @apply bg-gray-200;
   }
 
@@ -16,7 +16,7 @@
 
   &:disabled,
   &:disabled:hover {
-    @apply bg-gray-300 text-gray-600 cursor-default;
+    @apply opacity-70 text-gray-600 cursor-default;
   }
 
   .icon {

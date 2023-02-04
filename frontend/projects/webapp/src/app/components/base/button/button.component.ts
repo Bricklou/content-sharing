@@ -10,7 +10,7 @@ export class ButtonComponent {
   @Input() public disabled = false;
   @Input() public dark = false;
   @Input() public icon?: string;
-  @Output() public btnClick = new EventEmitter();
+  @Output() public btnClick = new EventEmitter<Event>();
 
   protected onClick(event: Event): void {
     this.btnClick.emit(event);

@@ -7,5 +7,10 @@
   "pages.login.title": "Login",
   "pages.login.username": "Username",
   "pages.login.password": "Password",
-  "pages.login.submit": "Login"
+  "pages.login.submit": "Login",
+  "pages.login.use_third_parties": "Login with:",
+  "pages.login.divider_or": "Or",
+  "pages.login.no_config": "An unexpected error occurred. Please contact the administrator.",
+  "pages.oauth2_callback.title": "Connection in progress...",
+  "pages.oauth2_callback.back_to_homepage": "Back to homepage"
 }

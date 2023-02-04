@@ -16,6 +16,7 @@ import { TranslocoRootModule } from './transloco-root.module';
 import { CsrfInterceptor } from './interceptors/csrf.interceptor';
 import { AlertComponent } from './components/base/alert/alert.component';
 import { discord, github, NgxSimpleIconsModule } from 'ngx-simple-icons';
+import { OauthCallbackComponent } from './pages/oauth-callback/oauth-callback.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { discord, github, NgxSimpleIconsModule } from 'ngx-simple-icons';
     LoginComponent,
     HomeComponent,
     AlertComponent,
+    OauthCallbackComponent,
   ],
   imports: [
     BrowserModule,

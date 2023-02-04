@@ -10,6 +10,7 @@ import {
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@app/services/auth.service';
+import { ConfigService } from '@app/services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,9 @@ export class AppComponent implements OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private auth: AuthService,
+    private config: ConfigService,
   ) {
+    this.config.refresh().subscribe();
     this.auth.refresh().subscribe();
     this.sub = this.router.events.subscribe({
       next: event => {
