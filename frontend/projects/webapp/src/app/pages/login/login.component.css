@@ -60,6 +60,10 @@
     @apply bg-pickled-bluewood-700 hover:bg-pickled-bluewood-600;
     @apply text-candlelight-500;
 
+    &:hover:not(:disabled) {
+      @apply bg-pickled-bluewood-600;
+    }
+
     &:disabled,
     &:disabled:hover {
       @apply bg-pickled-bluewood-300 text-opacity-80;
