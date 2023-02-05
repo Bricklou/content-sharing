@@ -1,0 +1,44 @@
+<div
+  class="drag-n-drop"
+  draggable="true"
+  [ngClass]="dragAreaClass"
+  [class.dark]="darkMode"
+  *transloco="let t; read: 'components.drag-drop'">
+  <div
+    class="box"
+    (click)="onClick()"
+    [ngClass]="{ 'is-dragging': isDragging }"
+    (dragenter)="onDragEnter($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)">
+    <div class="description">
+      <p class="title">{{ t('drag-here') }}</p>
+      <!--Drag files here-->
+      <p class="subtitle">{{ t('open') }}</p>
+      <!-- or click to open -->
+      <input
+        type="file"
+        #fileInput
+        [multiple]="multiple"
+        (change)="onFileChange($event)"
+        [accept]="accept" />
+    </div>
+    <div class="hovered">
+      <lucide-icon name="upload-cloud" class="icon"></lucide-icon>
+      <span>Drop file here</span>
+    </div>
+  </div>
+  <div class="dragged-file-wrapper" *ngIf="uploadedFiles">
+    <ul>
+      <li class="file" *ngFor="let file of uploadedFiles">
+        <lucide-icon name="file" class="icon"></lucide-icon>
+        <span [innerText]="file.name"></span>
+
+        <button (click)="removeFile(file)">
+          <lucide-icon name="x"></lucide-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

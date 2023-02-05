@@ -1,3 +1,6 @@
+from webapp.auth.serializers import ProvidedUserSerializer
+
+
 class Provider:
     """
     Abstract class for OAuth2 provider.
@@ -9,5 +12,5 @@ class Provider:
     def token(self, response: str):
         raise NotImplementedError
 
-    def get_user(self):
+    def get_user(self) -> ProvidedUserSerializer:
         raise NotImplementedError

@@ -9,8 +9,9 @@ from rest_framework.views import APIView
 from webapp.serializers import UserSerializer
 from webapp.utils.permissions import IsAuthenticatedNotPost
 from .providers.provider import Provider
-from .serializers import UserLoginSerializer
+from .serializers import UserSignInSerializer
 from ..apps import logger
+from ..models import User
 from ..settings import webapp_settings
 
 # OAuh2 Providers
@@ -40,10 +41,10 @@ class UserView(APIView):
 
     def post(self, request):
         """
-            This function logs in the user and returns
-            and HttpOnly cookie, the `sessionid` cookie
-            """
-        serializer = UserLoginSerializer(data=request.data)
+        This function logs in the user and returns
+        and HttpOnly cookie, the `sessionid` cookie
+        """
+        serializer = UserSignInSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -59,19 +60,33 @@ class UserView(APIView):
 
 @ensure_csrf_cookie
 @api_view(['GET'])
-def login_set_cookie(_):
+def signin_set_cookie(_):
     """
-    `login_view` requires that a csrf cookie be set.
+    `signin_set_cookie` requires that a csrf cookie be set.
     `getCsrfToken` in `auth.js` uses this cookie to
     make a request to `login_view`
     """
     return Response({"detail": "CSRF cookie set"})
 
 
+@api_view(['GET'])
+def check_user(self: Request) -> Response:
+    """
+    Checks if the user exists
+    """
+    username = self.query_params.get('username')
+    user = User.objects.filter(username__iexact=username).first()
+
+    if user is None:
+        return Response({"detail": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response({"detail": "User exists"})
+
+
 class OAuth2View(APIView):
     def get(self, request):
         """
-        Redirects to the OAuth2 login page
+        Redirects to the OAuth2 signin page
         """
         provider = request.query_params.get('provider')
         if provider and webapp_settings.is_provider_enabled(provider):
@@ -87,7 +102,7 @@ class OAuth2View(APIView):
 
     def post(self, request: Request) -> Response:
         """
-        Login the user from the OAuth2 information
+        Signin the user from the OAuth2 information
         """
         provider = request.query_params.get('provider')
         if provider and webapp_settings.is_provider_enabled(provider):
@@ -100,20 +115,27 @@ class OAuth2View(APIView):
             url = request.get_full_path()
 
             try:
-                token = providers[provider].token(url)
-                user = providers[provider].get_user()
+                providers[provider].token(url)
+                provided_user = providers[provider].get_user()
 
-                if not user:
-                    raise Exception("Invalid user")
+                provided_user.is_valid()
 
-                login(request, user)
-                serialized_user = UserSerializer(user)
+                user_auth = provided_user.to_database_user()
+
+                if not user_auth:
+                    return Response({
+                        "detail": "User doesn't exists",
+                        "oauth2_user": provided_user.data
+                    }, status=404)
+
+                login(request, user_auth.user)
+                serialized_user = UserSerializer(user_auth.user)
                 return Response({"detail": "Success", "user": serialized_user.data})
 
             except Exception as e:
-                logger.error(f'Failed to authenticate user: {e}')
+                logger.exception("Failed to authenticate user", e)
                 return Response({
                     "detail": "Failed to authenticate user. If the problem persists, contact the administrator"
-                }, status=400)
+                }, status=500)
 
         return Response({"detail": "Unknown auth provider"}, status=400)

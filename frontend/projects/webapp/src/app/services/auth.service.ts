@@ -2,10 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { User } from '@app/interfaces/User';
-import { BehaviorSubject, catchError, map, Observable, throwError, timeout } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, throwError, timeout } from 'rxjs';
 import { OAuthProviders } from '@app/interfaces/AppConfig';
 
-interface UserLogin {
+interface UserSignIn {
   username: string;
   password: string;
 }
@@ -14,6 +14,8 @@ interface UserResponse {
   details: string;
   user?: User;
 }
+
+type OAuth2Response = [boolean, User?];
 
 const STATE_KEY_USER = makeStateKey<User | undefined>('auth_user');
 
@@ -34,8 +36,8 @@ export class AuthService {
     return this.currentUser !== undefined;
   }
 
-  public login(userLogin: UserLogin): Observable<void> {
-    return this.http.post<UserResponse>('/api/auth', userLogin).pipe(
+  public login(userSignIn: UserSignIn): Observable<void> {
+    return this.http.post<UserResponse>('/api/auth', userSignIn).pipe(
       catchError(this.httpError),
       map(u => {
         this.setUser(u.user);
@@ -43,7 +45,37 @@ export class AuthService {
     );
   }
 
-  public loginWithOAuth2(provider: OAuthProviders, code: string, state: string): Observable<void> {
+  public register(userRegister: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+    avatar: string;
+  }): Observable<void> {
+    return this.http.post<UserResponse>('/api/users', userRegister).pipe(
+      catchError(this.httpError),
+      map(u => {
+        this.setUser(u.user);
+      }),
+    );
+  }
+
+  public checkUser(username: string): Observable<boolean> {
+    return this.http.get(`/api/auth/check`, { params: { username }, observe: 'response' }).pipe(
+      map(response => response.status === 200),
+      catchError((e: HttpErrorResponse) => {
+        if (e.status === 404) {
+          return of(false);
+        }
+        return this.httpError(e);
+      }),
+    );
+  }
+
+  public loginWithOAuth2(
+    provider: OAuthProviders,
+    code: string,
+    state: string,
+  ): Observable<OAuth2Response> {
     return this.http
       .post<UserResponse>(
         `/api/oauth2`,
@@ -57,9 +89,16 @@ export class AuthService {
         },
       )
       .pipe(
-        catchError(this.httpError),
         map(u => {
           this.setUser(u.user);
+          return <OAuth2Response>[true, undefined];
+        }),
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === 404) {
+            const { oauth2_user } = err.error as { oauth2_user?: User };
+            return of<OAuth2Response>([false, oauth2_user]);
+          }
+          return this.httpError(err);
         }),
       );
   }

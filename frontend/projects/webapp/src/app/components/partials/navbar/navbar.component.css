@@ -31,7 +31,8 @@ lucide-angular {
     @apply hidden mx-2 md:block w-full md:w-1/2 md:max-w-md my-auto;
 
     ::ng-deep .input {
-      @apply bg-firefly-600 text-white placeholder-firefly-200 placeholder-opacity-60;
+      @apply bg-firefly-600 placeholder-firefly-200 placeholder-opacity-60;
+      @apply text-white !important;
     }
 
     &.active {
@@ -100,7 +101,7 @@ lucide-angular {
   }
 }
 
-.logout-btn {
+.sign-out-btn {
   @apply flex items-center pr-8 mx-auto relative;
   @apply md:p-0;
 

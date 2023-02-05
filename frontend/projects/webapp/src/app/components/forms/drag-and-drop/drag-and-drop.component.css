@@ -1,0 +1,89 @@
+.drag-n-drop {
+  @apply mx-4 my-8 max-w-md;
+
+  .box {
+    @apply border-gray-500 text-gray-500;
+
+    &:hover {
+      @apply border-candlelight-500 text-candlelight-600 bg-gray-400 bg-opacity-10;
+    }
+  }
+
+  &.dark .box {
+    @apply border-gray-300 text-gray-300;
+
+    &:hover {
+      @apply border-candlelight-500 text-candlelight-300 bg-gray-100 bg-opacity-10;
+    }
+  }
+}
+
+.box {
+  @apply border-dashed rounded-2xl border-2;
+  @apply flex flex-col justify-center items-center;
+  @apply transition-colors duration-100 ease-in-out;
+  @apply w-full h-24 cursor-pointer;
+
+  input {
+    @apply hidden;
+  }
+
+  .description {
+    .title {
+      @apply text-xl;
+    }
+
+    .subtitle {
+      @apply text-sm text-center;
+    }
+  }
+
+  .hovered,
+  .description {
+    @apply select-none pointer-events-none;
+  }
+}
+
+:not(.is-dragging) .hovered {
+  @apply hidden;
+}
+
+.is-dragging {
+  @apply bg-gray-100 bg-opacity-10;
+
+  .description {
+    @apply hidden;
+  }
+
+  .hovered {
+    @apply text-xl flex flex-row items-center;
+
+    lucide-icon {
+      @apply mr-2 w-6 h-6;
+    }
+  }
+}
+
+.file {
+  @apply border rounded-md mt-2 p-2 text-left;
+  @apply border-gray-300 text-gray-500;
+  @apply w-full flex flex-row items-center;
+
+  span {
+    @apply flex-1 mx-2;
+  }
+
+  button,
+  lucide-icon {
+    @apply w-6 h-6;
+  }
+
+  ::ng-deep .icon svg,
+  ::ng-deep button:hover svg {
+    @apply stroke-candlelight-500;
+  }
+
+  button {
+    @apply transition-colors duration-100 ease-in-out;
+  }
+}

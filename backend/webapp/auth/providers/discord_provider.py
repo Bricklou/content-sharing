@@ -1,6 +1,7 @@
 from requests_oauthlib import OAuth2Session
 
 from webapp.auth.providers.provider import Provider
+from webapp.auth.serializers import ProvidedUserSerializer
 from webapp.models.user_auth import UserAuth
 from webapp.settings import webapp_settings
 
@@ -34,15 +35,14 @@ class DiscordProvider(Provider):
         )
         return token
 
-    def get_user(self):
+    def get_user(self) -> ProvidedUserSerializer:
         json_user_data = self.__session.get(self._USER_URL).json()
+        user = ProvidedUserSerializer(data={
+            'id': json_user_data['id'],
+            'username': json_user_data['username'],
+            'email': json_user_data['email'],
+            'avatar': f'https://cdn.discordapp.com/avatars/{json_user_data["id"]}/{json_user_data["avatar"]}.png',
+            'provider': UserAuth.AuthProvider.DISCORD,
+        })
 
-        provided_user = UserAuth.objects.filter(
-            remote_user_id=json_user_data['id'],
-            provider=UserAuth.AuthProvider.DISCORD,
-        ).first()
-
-        if not provided_user:
-            return None
-
-        return provided_user.user
+        return user

@@ -7,21 +7,19 @@ import { ConfigService } from '@app/services/config.service';
 import { AppConfig, OAuthProviders } from '@app/interfaces/AppConfig';
 import { DOCUMENT } from '@angular/common';
 
-interface UserLogin {
+interface UserSignin {
   username: FormControl<string>;
-  password: FormControl<string>;
 }
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-signin',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.css'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  public loginForm!: FormGroup<UserLogin>;
+export class SignInComponent implements OnInit, OnDestroy {
+  public signinForm!: FormGroup<UserSignin>;
   protected error?: string[];
-  private loginSub?: Subscription;
-  private userSub?: Subscription;
+  private signinSub?: Subscription;
   private configSub: Subscription;
   private oauth2Sub?: Subscription;
   private config: AppConfig | undefined;
@@ -35,14 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     @Inject(DOCUMENT) private document: Document,
   ) {
-    this.userSub = this.auth.events.subscribe({
-      next: user => {
-        if (user) {
-          this.redirectedNextUrl();
-        }
-      },
-    });
-
     this.configSub = this.configService.events.subscribe({
       next: cfg => {
         this.config = cfg;
@@ -51,26 +41,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
+    this.signinForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.maxLength(150)]],
-      password: ['', [Validators.required, Validators.maxLength(128)]],
     });
   }
 
   public ngOnDestroy(): void {
-    if (this.loginSub) {
-      this.loginSub.unsubscribe();
+    if (this.signinSub) {
+      this.signinSub.unsubscribe();
     }
     if (this.configSub) {
       this.configSub.unsubscribe();
     }
-    if (this.userSub) {
-      this.userSub.unsubscribe();
-    }
   }
 
-  protected get formControls(): UserLogin {
-    return this.loginForm.controls;
+  protected get formControls(): UserSignin {
+    return this.signinForm.controls;
   }
 
   protected login(event: Event) {
@@ -78,31 +64,30 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.error = undefined;
 
-    // Process login data
-    if (this.loginForm.invalid) return;
+    // Process signin data
+    if (this.signinForm.invalid) return;
 
-    const value = this.loginForm.value;
-    if (!value.username || !value.password) {
+    const value = this.signinForm.value;
+    if (!value.username) {
       return;
     }
 
-    this.loginSub = this.auth
-      .login({
-        username: value.username,
-        password: value.password,
-      })
-      .subscribe({
-        error: (error: Error) => {
-          this.error = [error.message];
-        },
-      });
-  }
-
-  private redirectedNextUrl(): Subscription {
-    return this.currentRoute.queryParams.subscribe(params => {
-      const next = (params['next'] as string | undefined) ?? '/';
-
-      void this.router.navigateByUrl(next);
+    this.signinSub = this.auth.checkUser(value.username).subscribe({
+      next: (user: boolean) => {
+        if (user) {
+          void this.router.navigate(['/login'], {
+            queryParams: { username: value.username },
+            queryParamsHandling: 'merge',
+          });
+        } else {
+          void this.router.navigate(['/register'], {
+            queryParams: { username: value.username },
+          });
+        }
+      },
+      error: (error: Error) => {
+        this.error = [error.message];
+      },
     });
   }
 

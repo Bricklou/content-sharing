@@ -1,0 +1,172 @@
+.register {
+  @apply h-screen w-screen flex flex-col justify-center items-center;
+  @apply bg-firefly-800;
+
+  &:before {
+    @apply h-screen w-screen absolute top-0 bg-firefly-700 bg-opacity-70;
+    content: ' ';
+    mask-image: url('/assets/patterns/tic-tac-toe.svg');
+    mask-size: 5rem auto;
+  }
+
+  header {
+    @apply z-10 top-0 w-screen p-4;
+
+    lucide-angular {
+      @apply h-7 w-7;
+    }
+
+    .link {
+      @apply py-2 px-2 mx-1 flex text-white max-w-fit;
+      @apply border-transparent;
+      @apply transition-colors duration-100 ease-in-out;
+
+      &:hover {
+        @apply text-candlelight-500;
+      }
+
+      span {
+        @apply ml-2 text-lg;
+      }
+    }
+  }
+
+  .content {
+    @apply container flex-1 z-10 flex flex-col justify-center items-center;
+  }
+
+  .card {
+    @apply py-6 md:py-4 px-8 text-white md:max-w-xl w-full;
+
+    h1 {
+      @apply uppercase text-4xl mb-6 text-center md:text-left;
+    }
+
+    .error {
+      @apply text-2xl mb-6 text-center;
+    }
+  }
+
+  app-input {
+    @apply mb-4;
+  }
+
+  app-button {
+    @apply block;
+  }
+
+  app-button {
+    @apply w-full md:w-2/3 md:mx-auto mt-8;
+  }
+
+  app-drag-and-drop {
+    @apply w-full md:w-2/3 md:mx-auto mt-8;
+
+    ::ng-deep .file {
+      span {
+        @apply text-gray-200;
+      }
+
+      button svg {
+        @apply stroke-gray-400;
+      }
+
+      button:hover svg {
+        @apply stroke-candlelight-500;
+      }
+    }
+  }
+
+  ::ng-deep form app-button button {
+    @apply bg-pickled-bluewood-700 hover:bg-pickled-bluewood-600;
+    @apply text-candlelight-500;
+
+    &:hover:not(:disabled) {
+      @apply bg-pickled-bluewood-600;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      @apply bg-pickled-bluewood-300 text-opacity-80;
+    }
+  }
+
+  .alert {
+    @apply mb-8;
+  }
+
+  .divider {
+    @apply my-8 h-4 whitespace-nowrap uppercase flex flex-row;
+    @apply items-center self-stretch;
+
+    &:before,
+    &:after {
+      content: '';
+      @apply bg-pickled-bluewood-300 bg-opacity-40 w-full flex-grow;
+
+      height: 0.125rem;
+    }
+
+    &:not(:empty) {
+      @apply gap-4;
+    }
+  }
+
+  form,
+  .third-parties-auth,
+  .divider {
+    @apply md:mx-12;
+  }
+
+  .third-parties-auth {
+    @apply flex flex-col;
+
+    .title {
+      @apply uppercase text-xl w-full mx-auto;
+    }
+
+    app-button {
+      @apply mt-6;
+
+      .icon {
+        @apply mr-2 fill-candlelight-400;
+      }
+
+      .loading-icon {
+        @apply animate-spin;
+
+        ::ng-deep svg {
+          @apply h-6 w-6 stroke-white;
+        }
+      }
+
+      ::ng-deep &.discord-btn button {
+        background-color: hsl(235, 85.6%, 64.7%);
+
+        &:hover:not(:disabled) {
+          background-color: hsl(235, 51.4%, 52.4%);
+        }
+
+        .icon {
+          @apply h-6;
+        }
+      }
+
+      ::ng-deep &.github-btn button {
+        @apply bg-gray-900 text-white font-bold;
+
+        &:hover:not(:disabled) {
+          @apply bg-gray-800;
+        }
+
+        .icon {
+          @apply fill-white h-6 !important;
+        }
+
+        .brand {
+          @apply h-4;
+        }
+      }
+    }
+  }
+}
