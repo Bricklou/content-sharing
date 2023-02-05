@@ -95,6 +95,10 @@
     @apply mb-8;
   }
 
+  .error-text {
+    @apply p-2 bg-red-600 rounded;
+  }
+
   .divider {
     @apply my-8 h-4 whitespace-nowrap uppercase flex flex-row;
     @apply items-center self-stretch;

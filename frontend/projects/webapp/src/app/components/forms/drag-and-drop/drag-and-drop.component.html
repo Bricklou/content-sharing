@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="drag-and-drop.component.css" />
 <div
   class="drag-n-drop"
   draggable="true"
@@ -14,9 +15,7 @@
     (drop)="onDrop($event)">
     <div class="description">
       <p class="title">{{ t('drag-here') }}</p>
-      <!--Drag files here-->
       <p class="subtitle">{{ t('open') }}</p>
-      <!-- or click to open -->
       <input
         type="file"
         #fileInput
@@ -32,8 +31,17 @@
   <div class="dragged-file-wrapper" *ngIf="uploadedFiles">
     <ul>
       <li class="file" *ngFor="let file of uploadedFiles">
-        <lucide-icon name="file" class="icon"></lucide-icon>
-        <span [innerText]="file.name"></span>
+        <lucide-icon
+          *ngIf="!enablePreviews || !isImage(file)"
+          name="file"
+          class="icon"></lucide-icon>
+
+        <ng-container *ngIf="enablePreviews && isImage(file); else elseNoPreviews">
+          <app-preview-canvas [file]="file" [height]="previewSize" [width]="previewSize" />
+        </ng-container>
+        <ng-template #elseNoPreviews>
+          <span [innerText]="file.name"></span>
+        </ng-template>
 
         <button (click)="removeFile(file)">
           <lucide-icon name="x"></lucide-icon>

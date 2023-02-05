@@ -20,6 +20,7 @@ import { OauthCallbackComponent } from './pages/oauth-callback/oauth-callback.co
 import { RegisterAccountComponent } from './pages/register/account/register-account.component';
 import { DragAndDropComponent } from './components/forms/drag-and-drop/drag-and-drop.component';
 import { WidgetsComponent } from './pages/widgets/widgets.component';
+import { PreviewCanvasComponent } from './components/forms/drag-and-drop/preview-canvas/preview-canvas.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { WidgetsComponent } from './pages/widgets/widgets.component';
     RegisterAccountComponent,
     DragAndDropComponent,
     WidgetsComponent,
+    PreviewCanvasComponent,
   ],
   imports: [
     BrowserModule,

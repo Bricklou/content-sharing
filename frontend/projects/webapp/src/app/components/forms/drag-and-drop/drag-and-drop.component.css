@@ -38,6 +38,10 @@
     }
   }
 
+  .hovered {
+    @apply z-10;
+  }
+
   .hovered,
   .description {
     @apply select-none pointer-events-none;
@@ -75,7 +79,7 @@
 
   button,
   lucide-icon {
-    @apply w-6 h-6;
+    @apply w-6 h-6 self-baseline;
   }
 
   ::ng-deep .icon svg,
@@ -85,5 +89,13 @@
 
   button {
     @apply transition-colors duration-100 ease-in-out;
+  }
+
+  app-preview-canvas {
+    @apply mx-auto;
+  }
+
+  &:first-child:not(lucide-icon) {
+    @apply pl-6;
   }
 }

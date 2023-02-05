@@ -20,6 +20,8 @@ export class DragAndDropComponent implements ControlValueAccessor {
   @Input() public multiple?: boolean = false;
   @Input() public accept: string[] = ['*'];
   @Input() public disabled?: boolean = true;
+  @Input() public enablePreviews?: boolean = false;
+  @Input() public previewSize = 150;
 
   protected isDragging = false;
   protected uploadedFiles: File[] = [];
@@ -130,6 +132,10 @@ export class DragAndDropComponent implements ControlValueAccessor {
   private isAccepted(file: File): boolean {
     const reg = new RegExp(this.accept.join('|').replace(/\*/g, '.*'));
     return reg.test(file.type);
+  }
+
+  public isImage(file: File): boolean {
+    return file.type.startsWith('image/');
   }
 
   public registerOnChange(fn: (files: File[]) => void): void {

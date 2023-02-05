@@ -1,5 +1,13 @@
 import { Component, Inject, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AppConfig, OAuthProviders } from '@app/interfaces/AppConfig';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,13 +67,16 @@ export class RegisterAccountComponent implements OnDestroy {
       return;
     }
 
-    this.registerForm = this.formBuilder.group({
-      username: [this.state.username, [Validators.required, Validators.maxLength(150)]],
-      email: [this.state.email, [Validators.required, Validators.maxLength(150)]],
-      avatar: [this.state.avatar || '', [Validators.required]],
-      password: ['', [Validators.required, Validators.maxLength(128)]],
-      confirmPassword: ['', [Validators.required, Validators.maxLength(128)]],
-    });
+    this.registerForm = this.formBuilder.group(
+      {
+        username: [this.state.username, [Validators.required, Validators.maxLength(150)]],
+        email: [this.state.email, [Validators.required, Validators.maxLength(150)]],
+        avatar: [this.state.avatar || '', [Validators.required]],
+        password: ['', [Validators.required, Validators.maxLength(128)]],
+        confirmPassword: ['', [Validators.required, Validators.maxLength(128)]],
+      },
+      { validators: [this.passwordMatchingValidator] },
+    );
 
     this.userSub = this.auth.events.subscribe({
       next: user => {
@@ -143,4 +154,17 @@ export class RegisterAccountComponent implements OnDestroy {
   protected is_config_valid(): boolean {
     return this.config != undefined;
   }
+
+  private passwordMatchingValidator: ValidatorFn = (
+    control: AbstractControl,
+  ): ValidationErrors | null => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (!password || !confirmPassword) return null;
+
+    if (password.pristine || confirmPassword.pristine) return null;
+
+    return password.value === confirmPassword.value ? null : { not_matched: true };
+  };
 }

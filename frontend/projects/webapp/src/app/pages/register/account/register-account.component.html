@@ -45,13 +45,20 @@
           elId="confirmPassword"
           [placeholder]="t('confirmPassword')"
           formControlName="confirmPassword"
-          [ngClass]="{ invalid: formControls.confirmPassword.errors }" />
+          [ngClass]="{ invalid: formControls.confirmPassword.errors || registerForm.errors?.['not_matched'] }" />
+        <span
+          class="error-text"
+          *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.errors?.['not_matched']">
+          Password mismatch
+        </span>
 
         <app-drag-and-drop
           [darkMode]="true"
           formControlName="avatar"
           [ngClass]="{ invalid: formControls.avatar.errors }"
           [accept]="['image/*']"
+          [enablePreviews]="true"
+          [previewSize]="100"
           #dndInput />
 
         <app-button

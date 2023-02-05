@@ -23,5 +23,7 @@
   "pages.register.divider_or": "Ou",
   "pages.register.no_config": "Une erreur est survenue, veuillez contacter l'administrateur.",
   "pages.oauth2_callback.title": "Connexion en cours...",
-  "pages.oauth2_callback.back_to_homepage": "Retour à l'accueil"
+  "pages.oauth2_callback.back_to_homepage": "Retour à l'accueil",
+  "components.drag-drop.drag-here": "Glissez votre fichier ici",
+  "components.drag-drop.open": "ou cliquez pour sélectionner"
 }
