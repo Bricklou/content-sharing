@@ -110,6 +110,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
 
 # Whitelist used for resources proxy (like avatars or some APIs)
 PROXY_WHITELIST = [
-    'https://avatars.githubusercontent.com',
-    'https://discord.com/api',
+    'avatars.githubusercontent.com',
+    'discord.com',
 ]
