@@ -2,6 +2,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
+from rest_framework.parsers import MultiPartParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,7 +10,7 @@ from rest_framework.views import APIView
 from webapp.serializers import UserSerializer
 from webapp.utils.permissions import IsAuthenticatedNotPost
 from .providers.provider import Provider
-from .serializers import UserSignInSerializer
+from .serializers import UserSignInSerializer, UserRegisterSerializer
 from ..apps import logger
 from ..models import User
 from ..settings import webapp_settings
@@ -83,6 +84,28 @@ def check_user(self: Request) -> Response:
     return Response({"detail": "User exists"})
 
 
+class UserRegisterView(APIView):
+    parser_classes = [MultiPartParser]
+
+    def post(self, request: Request) -> Response:
+        """
+        Registers a new user
+        """
+        serializer = UserRegisterSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({
+                "detail": "Validation error",
+                "validation": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        user = serializer.save()
+        user.save()
+
+        login(request, user)
+        serialized_user = UserSerializer(user)
+        return Response({"detail": "Success", "user": serialized_user.data})
+
+
 class OAuth2View(APIView):
     def get(self, request):
         """
@@ -118,7 +141,8 @@ class OAuth2View(APIView):
                 providers[provider].token(url)
                 provided_user = providers[provider].get_user()
 
-                provided_user.is_valid()
+                if not provided_user.is_valid():
+                    return Response({"detail": "Invalid user", "oauth2_user": provided_user.data}, status=400)
 
                 user_auth = provided_user.to_database_user()
 

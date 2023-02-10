@@ -1,29 +1,64 @@
 {
-  "components.navbar.home": "Home",
-  "components.navbar.search_bar": "Search a game",
-  "components.navbar.sign-out": "Sign Out",
-  "components.navbar.sign-in": "Sign In",
-  "pages.login.back_to_homepage": "Back to homepage",
-  "pages.login.title": "Sign-in",
-  "pages.login.username": "Username",
-  "pages.login.password": "Password",
-  "pages.login.submit": "Sign-in",
-  "pages.login.use_third_parties": "Sign-in with:",
-  "pages.login.divider_or": "Or",
-  "pages.login.no_config": "An unexpected error occurred. Please contact the administrator.",
-  "pages.register.back_to_homepage": "Back to homepage",
-  "pages.register.title": "Register",
-  "pages.register.username": "Username",
-  "pages.register.email": "Email",
-  "pages.register.avatar": "Avatar",
-  "pages.register.password": "Password",
-  "pages.register.confirmPassword": "Confirm Password",
-  "pages.register.submit": "Register",
-  "pages.register.use_third_parties": "Register with:",
-  "pages.register.divider_or": "Or",
-  "pages.register.no_config": "An unexpected error occurred. Please contact the administrator.",
-  "pages.oauth2_callback.title": "Connection in progress...",
-  "pages.oauth2_callback.back_to_homepage": "Back to homepage",
-  "components.drag-drop.drag-here": "Drop your file here",
-  "components.drag-drop.open": "or click to open"
+  "components": {
+    "drag-drop": {
+      "drag-here": "Drop your file here",
+      "open": "or click to open",
+      "remove": "Remove file",
+      "upload-file": "Upload a file"
+    },
+    "navbar": {
+      "home": "Home",
+      "search_bar": "Search a game",
+      "sign-in": "Sign In",
+      "sign-out": "Sign Out"
+    }
+  },
+  "form": {
+    "errors": {
+      "email": "This field must be a valid email",
+      "maxLength": "This field must be less than {{maxLength}} characters",
+      "minLength": "This field must be at least {{minLength}} characters",
+      "notMatching": "This field must be the same as {{field}}",
+      "required": "This field is required",
+      "unique": "This field must be unique"
+    }
+  },
+  "pages": {
+    "login": {
+      "back_to_homepage": "Back to homepage",
+      "divider_or": "Or",
+      "no_config": "An unexpected error occurred. Please contact the administrator.",
+      "password": "Password",
+      "submit": "Sign-in",
+      "title": "Sign-in",
+      "use_third_parties": "Sign-in with:",
+      "username": "Username"
+    },
+    "oauth2_callback": {
+      "back_to_homepage": "Back to homepage",
+      "no_config": "Missing value for 'pages.oauth2_callback.no_config'",
+      "title": "Connection in progress..."
+    },
+    "register": {
+      "avatar": "Avatar",
+      "back_to_homepage": "Back to homepage",
+      "confirmPassword": "Confirm Password",
+      "divider_or": "Or",
+      "email": "Email",
+      "error": {
+        "unknown": "An unexpected error occurred. Please retry later or contact the administrator."
+      },
+      "form": {
+        "errors": {
+          "notMatching": "Passwords doesn't match"
+        }
+      },
+      "no_config": "An unexpected error occurred. Please contact the administrator.",
+      "password": "Password",
+      "submit": "Register",
+      "title": "Register",
+      "use_third_parties": "Register with:",
+      "username": "Username"
+    }
+  }
 }

@@ -1,29 +1,47 @@
 {
-  "components.navbar.home": "Accueil",
-  "components.navbar.search_bar": "Chercher un jeu",
-  "components.navbar.logout": "Déconnexion",
-  "components.navbar.login": "S'identifier",
-  "pages.login.back_to_homepage": "Retour à l'accueil",
-  "pages.login.title": "S'identifier",
-  "pages.login.username": "Nom d'utilisateur",
-  "pages.login.password": "Mot de passe",
-  "pages.login.submit": "S'identifier",
-  "pages.login.use_third_parties": "S'identifier avec :",
-  "pages.login.divider_or": "Ou",
-  "pages.login.no_config": "Une erreur est survenue, veuillez contacter l'administrateur.",
-  "pages.register.back_to_homepage": "Retour à l'accueil",
-  "pages.register.title": "S'enregistrer",
-  "pages.register.username": "Nom d'utilisateur",
-  "pages.register.email": "Adresse Mail",
-  "pages.register.avatar": "Avatar",
-  "pages.register.password": "Mot de passe",
-  "pages.register.confirmPassword": "Confirmation du Mot de passe",
-  "pages.register.submit": "S'enregistrer",
-  "pages.register.use_third_parties": "Enregistre-toi avec :",
-  "pages.register.divider_or": "Ou",
-  "pages.register.no_config": "Une erreur est survenue, veuillez contacter l'administrateur.",
-  "pages.oauth2_callback.title": "Connexion en cours...",
-  "pages.oauth2_callback.back_to_homepage": "Retour à l'accueil",
-  "components.drag-drop.drag-here": "Glissez votre fichier ici",
-  "components.drag-drop.open": "ou cliquez pour sélectionner"
+  "components": {
+    "drag-drop": {
+      "drag-here": "Glissez votre fichier ici",
+      "open": "ou cliquez pour sélectionner"
+    },
+    "navbar": {
+      "home": "Accueil",
+      "login": "S'identifier",
+      "logout": "Déconnexion",
+      "search_bar": "Chercher un jeu"
+    }
+  },
+  "pages": {
+    "login": {
+      "back_to_homepage": "Retour à l'accueil",
+      "divider_or": "Ou",
+      "no_config": "Une erreur est survenue, veuillez contacter l'administrateur.",
+      "password": "Mot de passe",
+      "submit": "S'identifier",
+      "title": "S'identifier",
+      "use_third_parties": "S'identifier avec :",
+      "username": "Nom d'utilisateur"
+    },
+    "oauth2_callback": {
+      "back_to_homepage": "Retour à l'accueil",
+      "no_config": "Missing value for 'pages.oauth2_callback.no_config'",
+      "title": "Connexion en cours..."
+    },
+    "register": {
+      "avatar": "Avatar",
+      "back_to_homepage": "Retour à l'accueil",
+      "confirmPassword": "Confirmation du Mot de passe",
+      "divider_or": "Ou",
+      "email": "Adresse Mail",
+      "error": {
+        "unknown": "Missing value for 'pages.register.error.unknown'"
+      },
+      "no_config": "Une erreur est survenue, veuillez contacter l'administrateur.",
+      "password": "Mot de passe",
+      "submit": "S'enregistrer",
+      "title": "S'enregistrer",
+      "use_third_parties": "Enregistre-toi avec :",
+      "username": "Nom d'utilisateur"
+    }
+  }
 }

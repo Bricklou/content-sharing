@@ -108,6 +108,7 @@ export class DragAndDropComponent implements ControlValueAccessor {
     } else {
       this.uploadedFiles.push(...files);
     }
+    this.onChange(this.uploadedFiles);
   }
 
   public removeFile(file: File) {

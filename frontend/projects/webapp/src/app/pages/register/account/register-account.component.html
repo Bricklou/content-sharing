@@ -1,4 +1,3 @@
-<script src="register-account.component.ts"></script>
 <div class="register" *transloco="let t; read: 'pages.register'">
   <header>
     <a
@@ -25,32 +24,38 @@
         <app-input
           type="text"
           elId="username"
+          name="username"
           [placeholder]="t('username')"
           formControlName="username"
-          [ngClass]="{ invalid: formControls.username.errors }" />
+          [error]="getFirstError(formControls.username)" />
         <app-input
           type="text"
           elId="email"
+          name="email"
           [placeholder]="t('email')"
           formControlName="email"
-          [ngClass]="{ invalid: formControls.email.errors }" />
+          [error]="getFirstError(formControls.email)" />
         <app-input
           type="password"
           elId="password"
+          name="password"
           [placeholder]="t('password')"
           formControlName="password"
-          [ngClass]="{ invalid: formControls.password.errors }" />
+          [error]="getFirstError(formControls.password)"
+          autocomplete="new-password"
+          *ngIf="isPasswordProvider(); else elseNoPassword" />
+        <ng-template #elseNoPassword>
+          <input type="password" name="new-password" hidden aria-label="Password" />
+        </ng-template>
         <app-input
           type="password"
-          elId="confirmPassword"
+          elId="confirmation"
           [placeholder]="t('confirmPassword')"
           formControlName="confirmPassword"
-          [ngClass]="{ invalid: formControls.confirmPassword.errors || registerForm.errors?.['not_matched'] }" />
-        <span
-          class="error-text"
-          *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.errors?.['not_matched']">
-          Password mismatch
-        </span>
+          name="confirm-password"
+          [error]="getFirstError(formControls.confirmPassword)"
+          autocomplete="new-password"
+          *ngIf="isPasswordProvider()" />
 
         <app-drag-and-drop
           [darkMode]="true"

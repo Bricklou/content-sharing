@@ -1,28 +1,35 @@
-import { Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AppConfig, OAuthProviders } from '@app/interfaces/AppConfig';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@app/services/auth.service';
+import { AuthService, RegisterBaseOptions, RegisterOptions } from '@app/services/auth.service';
 import { ConfigService } from '@app/services/config.service';
 import { DOCUMENT } from '@angular/common';
-import { User } from '@app/interfaces/User';
 import { DragAndDropComponent } from '@app/components/forms/drag-and-drop/drag-and-drop.component';
+import { translate } from '@ngneat/transloco';
+import Validation from '@app/utils/validation';
 
 interface UserRegister {
   username: FormControl<string>;
   email: FormControl<string>;
-  avatar: FormControl<string>;
+  avatar: FormControl<File[]>;
   password: FormControl<string>;
   confirmPassword: FormControl<string>;
+}
+
+interface StateData {
+  id?: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  provider?: OAuthProviders;
 }
 
 @Component({
@@ -39,7 +46,7 @@ export class RegisterAccountComponent implements OnDestroy {
   private config: AppConfig | undefined;
   protected loading: OAuthProviders | undefined;
 
-  private state?: User;
+  private state?: StateData;
 
   public constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -47,6 +54,7 @@ export class RegisterAccountComponent implements OnDestroy {
     private currentRoute: ActivatedRoute,
     private auth: AuthService,
     private configService: ConfigService,
+    private changeDetector: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document,
   ) {
     this.configSub = this.configService.events.subscribe({
@@ -60,7 +68,7 @@ export class RegisterAccountComponent implements OnDestroy {
       void router.navigate(['/']);
       return;
     }
-    this.state = currentNavigation.extras.state as User | undefined;
+    this.state = currentNavigation.extras.state as StateData | undefined;
 
     if (!this.state?.username) {
       void router.navigate(['/']);
@@ -70,12 +78,23 @@ export class RegisterAccountComponent implements OnDestroy {
     this.registerForm = this.formBuilder.group(
       {
         username: [this.state.username, [Validators.required, Validators.maxLength(150)]],
-        email: [this.state.email, [Validators.required, Validators.maxLength(150)]],
-        avatar: [this.state.avatar || '', [Validators.required]],
-        password: ['', [Validators.required, Validators.maxLength(128)]],
-        confirmPassword: ['', [Validators.required, Validators.maxLength(128)]],
+        email: [
+          this.state.email,
+          [Validators.required, Validators.maxLength(150), Validators.email],
+        ],
+        avatar: [[] as File[], [Validators.required]],
+        password: [
+          '',
+          this.isPasswordProvider() ? [Validators.required, Validators.maxLength(128)] : [],
+        ],
+        confirmPassword: [
+          '',
+          this.isPasswordProvider() ? [Validators.required, Validators.maxLength(128)] : [],
+        ],
       },
-      { validators: [this.passwordMatchingValidator] },
+      {
+        validators: [Validation.match('password', 'confirmPassword')],
+      },
     );
 
     this.userSub = this.auth.events.subscribe({
@@ -112,6 +131,21 @@ export class RegisterAccountComponent implements OnDestroy {
     return this.registerForm.controls;
   }
 
+  public getFirstError(control: AbstractControl): string | undefined {
+    if (!control.errors) return undefined;
+
+    // return the first available error key and generate an i18n key from it
+    const key = Object.keys(control.errors ?? {}).find(() => true);
+    if (!key) return undefined;
+
+    if (key === 'notMatching')
+      return translate(`form.errors.${key}`, {
+        field: translate<string>('pages.register.password'),
+      });
+
+    return translate(`form.errors.${key}`);
+  }
+
   protected register(event: Event) {
     event.preventDefault();
 
@@ -120,23 +154,49 @@ export class RegisterAccountComponent implements OnDestroy {
     // Process login data
     if (this.registerForm.invalid) return;
 
-    const value = this.registerForm.value;
-    if (!value.email || !value.avatar || !value.password || !value.confirmPassword) {
-      return;
+    const value = this.registerForm.getRawValue();
+
+    const baseOptions: RegisterBaseOptions = {
+      username: value.username,
+      email: value.email,
+      avatar: value.avatar,
+    };
+    let registerOptions: RegisterOptions;
+
+    if (this.state?.provider && this.state?.id) {
+      registerOptions = {
+        ...baseOptions,
+        provider: this.state.provider,
+        oauth2_id: this.state.id,
+      };
+    } else {
+      registerOptions = {
+        ...baseOptions,
+        password: value.password,
+        confirmation: value.confirmPassword,
+      };
     }
 
-    this.registerSub = this.auth
-      .register({
-        email: value.email,
-        avatar: value.avatar,
-        password: value.password,
-        confirmPassword: value.confirmPassword,
-      })
-      .subscribe({
-        error: (error: Error) => {
+    this.registerSub = this.auth.register(registerOptions).subscribe({
+      error: (error: Error | { validation: Record<string, { code: string; message: string }> }) => {
+        if (error instanceof Error) {
           this.error = [error.message];
-        },
-      });
+          return;
+        } else if (error.validation == undefined) {
+          this.error = [translate('pages.register.error.unknown')];
+          return;
+        }
+
+        for (const key of Object.keys(error.validation)) {
+          const control = this.registerForm.get(key);
+          if (!control || !error.validation[key]) continue;
+
+          const firstError = error.validation[key].code;
+          control.setErrors({ [firstError]: true });
+          this.changeDetector.detectChanges();
+        }
+      },
+    });
   }
 
   private redirectedNextUrl(): Subscription {
@@ -155,16 +215,7 @@ export class RegisterAccountComponent implements OnDestroy {
     return this.config != undefined;
   }
 
-  private passwordMatchingValidator: ValidatorFn = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
-
-    if (!password || !confirmPassword) return null;
-
-    if (password.pristine || confirmPassword.pristine) return null;
-
-    return password.value === confirmPassword.value ? null : { not_matched: true };
-  };
+  protected isPasswordProvider(): boolean {
+    return this.state?.provider === undefined;
+  }
 }

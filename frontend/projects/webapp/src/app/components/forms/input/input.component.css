@@ -33,13 +33,17 @@
       &[type='search']::-webkit-search-results-decoration {
         @apply hidden;
       }
+
+      &.error {
+        @apply ring-2 ring-red-700;
+      }
     }
 
     :host-context(.input-style) {
     }
 
-    .error {
-      @apply text-sm ml-2 text-red-500 italic;
+    .error-message {
+      @apply text-sm ml-2 text-red-500 italic mt-1;
     }
   }
 }

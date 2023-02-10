@@ -1,6 +1,7 @@
 .register {
-  @apply h-screen w-screen flex flex-col justify-center items-center;
+  @apply h-screen w-screen flex flex-col;
   @apply bg-firefly-800;
+  @apply h-screen overflow-y-auto;
 
   &:before {
     @apply h-screen w-screen absolute top-0 bg-firefly-700 bg-opacity-70;
@@ -10,7 +11,7 @@
   }
 
   header {
-    @apply z-10 top-0 w-screen p-4;
+    @apply z-10 p-4 w-full;
 
     lucide-angular {
       @apply h-7 w-7;
@@ -32,7 +33,7 @@
   }
 
   .content {
-    @apply container flex-1 z-10 flex flex-col justify-center items-center;
+    @apply container flex-1 z-10 flex flex-col justify-center items-center mx-auto;
   }
 
   .card {

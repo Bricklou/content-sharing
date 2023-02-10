@@ -21,7 +21,8 @@
         #fileInput
         [multiple]="multiple"
         (change)="onFileChange($event)"
-        [accept]="accept" />
+        [accept]="accept"
+        [attr.aria-label]="t('upload-file')" />
     </div>
     <div class="hovered">
       <lucide-icon name="upload-cloud" class="icon"></lucide-icon>
@@ -43,7 +44,11 @@
           <span [innerText]="file.name"></span>
         </ng-template>
 
-        <button (click)="removeFile(file)">
+        <button
+          (click)="removeFile(file)"
+          [title]="t('remove')"
+          type="button"
+          [attr.aria-label]="t('remove')">
           <lucide-icon name="x"></lucide-icon>
         </button>
       </li>

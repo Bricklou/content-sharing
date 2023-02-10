@@ -16,7 +16,6 @@ export class PreviewCanvasComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     const ctx = this.canvas?.nativeElement.getContext('2d');
-    console.log('test', ctx, this.file);
     if (!ctx || !this.file) return;
     this.context = ctx;
 
