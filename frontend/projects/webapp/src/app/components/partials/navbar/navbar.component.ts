@@ -1,8 +1,9 @@
 import { AuthService } from '@app/services/auth.service';
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '@app/interfaces/User';
+import { InputComponent } from '@app/components/forms/input/input.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,11 +16,15 @@ export class NavBarComponent implements OnDestroy {
   protected isMenuOpened = false;
 
   @ViewChild('searchElement')
-  protected searchElement!: HTMLInputElement;
+  protected searchElement!: InputComponent;
 
   private readonly sub: Subscription;
 
-  public constructor(private auth: AuthService, private router: Router) {
+  public constructor(
+    private auth: AuthService,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
     this.sub = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.isMenuOpened = false;
@@ -51,8 +56,15 @@ export class NavBarComponent implements OnDestroy {
     this.isMenuOpened = !this.isMenuOpened;
   }
 
-  protected search(): void {
+  protected async search(): Promise<void> {
+    console.log('search', this.searchValue);
     this.searchElement.blur();
     this.isSearching = false;
+
+    if (this.searchValue === '//w') {
+      await this.router.navigate(['/widgets']);
+    }
+
+    this.searchValue = '';
   }
 }
