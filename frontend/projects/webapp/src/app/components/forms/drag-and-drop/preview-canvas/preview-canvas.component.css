@@ -1,3 +1,15 @@
 canvas {
-  @apply bg-gray-200 rounded-md border border-gray-300;
+  @apply bg-gray-200 rounded-md border border-gray-300 mx-auto;
+}
+
+.filename {
+  @apply text-sm italic mt-1 inline-block truncate w-11/12 text-center;
+
+  .icon {
+    @apply align-bottom;
+
+    ::ng-deep svg {
+      @apply stroke-candlelight-500;
+    }
+  }
 }

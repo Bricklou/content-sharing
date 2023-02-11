@@ -79,13 +79,13 @@
 .file {
   @apply border rounded-md mt-2 p-2 text-left;
   @apply border-gray-300 text-gray-500;
-  @apply w-full flex flex-row items-center;
+  @apply w-full flex flex-row items-center relative;
 
   span {
     @apply flex-1 mx-2;
   }
 
-  button,
+  .remove,
   lucide-icon {
     @apply w-6 h-6 self-baseline;
   }
@@ -95,8 +95,9 @@
     @apply stroke-candlelight-500;
   }
 
-  button {
+  .remove {
     @apply transition-colors duration-100 ease-in-out;
+    @apply absolute top-4 right-4;
   }
 
   app-preview-canvas {

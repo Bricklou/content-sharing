@@ -56,7 +56,7 @@ export class InputComponent implements ControlValueAccessor {
   /* eslint-enable @typescript-eslint/no-empty-function */
 
   public writeValue(value?: string): void {
-    if (value) {
+    if (value !== undefined) {
       this.value = value;
     }
   }

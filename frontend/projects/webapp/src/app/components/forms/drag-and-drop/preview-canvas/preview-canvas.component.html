@@ -1,1 +1,5 @@
-<canvas #canvas [width]="width" [height]="height"></canvas>
+<canvas #canvas [width]="width" [height]="height" role="img"></canvas>
+<span *ngIf="file" class="filename" [title]="file.name" [attr.aria-label]="file.name">
+  <lucide-icon name="file" class="icon"></lucide-icon>
+  {{ file.name }}
+</span>
