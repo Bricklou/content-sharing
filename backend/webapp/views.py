@@ -31,7 +31,7 @@ def resources_proxy(request):
 
             # Check if the url is in the whitelist
             url = urllib.parse.urlparse(url)
-            if url.netloc not in settings.PROXY_WHITELIST:
+            if url.netloc not in settings.PROXY_WHITELIST or url.scheme != 'https':
                 return Response({"detail": "Proxied url not allowed"}, status=403)
 
             response = requests.get(url.geturl(), stream=True)
