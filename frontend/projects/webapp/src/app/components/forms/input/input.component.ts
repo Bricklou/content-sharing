@@ -27,6 +27,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() public type: HTMLInputElement['type'] = 'text';
   @Input() public placeholder?: string;
   @Input() public disabled?: boolean;
+  @Input() public autocomplete?: string;
+  @Input() public error?: string;
   @Input() public name!: string;
   @Input() public required = false;
   @Output() public inputModelChange: EventEmitter<string> = new EventEmitter<string>();

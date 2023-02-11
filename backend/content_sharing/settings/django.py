@@ -107,3 +107,9 @@ AUTH_USER_MODEL = 'webapp.User'
 
 MEDIA_URL = '/storage/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
+
+# Whitelist used for resources proxy (like avatars or some APIs)
+PROXY_WHITELIST = [
+    'avatars.githubusercontent.com',
+    'discord.com',
+]

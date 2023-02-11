@@ -4,6 +4,7 @@ import { AuthService } from '@app/services/auth.service';
 import { AppConfig, OAuthProviders } from '@app/interfaces/AppConfig';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '@app/services/config.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-oauth-callback',
@@ -69,8 +70,18 @@ export class OauthCallbackComponent implements OnDestroy {
       const state = params['state'] as string;
 
       this.loginSub = this.authService.loginWithOAuth2(provider, code, state).subscribe({
-        error: (err: Error) => {
+        next: ([exist, user]) => {
+          if (exist) {
+            void this.router.navigate(['/']);
+          } else {
+            void this.router.navigate(['/register'], {
+              state: user,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
           this.error = err.message;
+          return;
         },
       });
     });

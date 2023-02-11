@@ -12,9 +12,11 @@
     .input {
       @apply rounded-lg px-4 py-2 transition-all text-black w-full shadow-md outline-none;
       @apply appearance-none ring-candlelight-500 ring-offset-1 ring-offset-candlelight-600;
+      @apply leading-6;
+
+      @apply ring-offset-2 ring-offset-firefly-700;
       @apply required:ring-2 required:ring-red-700;
       @apply invalid:ring-2 invalid:ring-red-700;
-      @apply leading-6;
 
       min-height: theme('height.8');
 
@@ -33,13 +35,17 @@
       &[type='search']::-webkit-search-results-decoration {
         @apply hidden;
       }
+
+      &.error:not(:focus) {
+        @apply ring-2 ring-red-700;
+      }
     }
 
     :host-context(.input-style) {
     }
 
-    .error {
-      @apply text-sm ml-2 text-red-500 italic;
+    .error-message {
+      @apply text-sm ml-2 text-red-500 italic mt-1;
     }
   }
 }

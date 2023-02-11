@@ -1,3 +1,4 @@
+<script src="input.component.ts"></script>
 <div class="input-container">
   <label [for]="elId" *ngIf="label">{{ label }}</label>
 
@@ -6,10 +7,16 @@
     [type]="type"
     [name]="name"
     class="input"
+    [class.error]="error"
     [attr.disabled]="disabled"
     [required]="required"
     [(ngModel)]="value"
     (blur)="onTouch()"
+    [autocomplete]="autocomplete"
     #input
     placeholder="{{ placeholder }}" />
+
+  <div class="error-message" *ngIf="error">
+    {{ error }}
+  </div>
 </div>

@@ -45,7 +45,11 @@
 
         <div class="menu-content">
           <ng-container *ngIf="currentUser; else elseGuest">
-            <button (click)="logout()" [title]="t('logout')" class="link logout-btn" type="button">
+            <button
+              (click)="logout()"
+              [title]="t('sign-out')"
+              class="link sign-out-btn"
+              type="button">
               <span class="avatar">
                 <img
                   *ngIf="currentUser.avatar; else elseNotAvatar"
@@ -60,9 +64,9 @@
             </button>
           </ng-container>
           <ng-template #elseGuest>
-            <a [title]="t('login')" class="link" routerLink="/login">
+            <a [title]="t('sign-in')" class="link" routerLink="/sign-in">
               <lucide-angular class="icon" name="log-in" />
-              <span class="md:hidden">{{ t('login') }}</span>
+              <span class="md:hidden">{{ t('sign-in') }}</span>
             </a>
           </ng-template>
         </div>

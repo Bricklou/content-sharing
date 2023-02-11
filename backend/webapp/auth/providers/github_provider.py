@@ -1,7 +1,7 @@
 from requests_oauthlib import OAuth2Session
 
 from webapp.auth.providers.provider import Provider
-from webapp.models import User
+from webapp.auth.serializers import ProvidedUserSerializer
 from webapp.models.user_auth import UserAuth
 from webapp.settings import webapp_settings
 
@@ -35,15 +35,14 @@ class GithubProvider(Provider):
         )
         return token
 
-    def get_user(self) -> User | None:
+    def get_user(self) -> ProvidedUserSerializer:
         json_user_data = self.__session.get(self._USER_URL).json()
+        user = ProvidedUserSerializer(data={
+            'id': json_user_data['id'],
+            'username': json_user_data['login'],
+            'email': json_user_data['email'],
+            'avatar': json_user_data['avatar_url'],
+            'provider': UserAuth.AuthProvider.GITHUB,
+        })
 
-        provided_user = UserAuth.objects.filter(
-            remote_user_id=json_user_data['id'],
-            provider=UserAuth.AuthProvider.GITHUB,
-        ).first()
-
-        if not provided_user:
-            return None
-
-        return provided_user.user
+        return user

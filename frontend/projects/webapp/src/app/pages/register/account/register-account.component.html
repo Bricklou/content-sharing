@@ -1,0 +1,84 @@
+<div class="register" *transloco="let t; read: 'pages.register'">
+  <header>
+    <a
+      routerLink="/"
+      class="link back"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page">
+      <lucide-angular name="arrow-left"></lucide-angular>
+      <span>{{ t('back_to_homepage') }}</span>
+    </a>
+  </header>
+  <div class="content">
+    <div class="card" *ngIf="is_config_valid(); else elseNoConfig">
+      <h1>{{ t('title') }}</h1>
+
+      <div class="alert" *ngIf="error">
+        <app-alert type="error" [closable]="true" (alertClose)="clearError()">
+          {{ error }}
+        </app-alert>
+      </div>
+
+      <form (ngSubmit)="register($event)" [formGroup]="registerForm">
+        <app-input
+          type="text"
+          elId="username"
+          name="username"
+          [placeholder]="t('username')"
+          formControlName="username"
+          [error]="getFirstError(formControls.username)" />
+        <app-input
+          type="text"
+          elId="email"
+          name="email"
+          [placeholder]="t('email')"
+          formControlName="email"
+          [error]="getFirstError(formControls.email)" />
+        <app-input
+          type="password"
+          elId="password"
+          name="password"
+          [placeholder]="t('password')"
+          formControlName="password"
+          [error]="getFirstError(formControls.password)"
+          autocomplete="new-password"
+          *ngIf="isPasswordProvider(); else elseNoPassword" />
+        <ng-template #elseNoPassword>
+          <input type="password" name="new-password" hidden aria-label="Password" />
+        </ng-template>
+        <app-input
+          type="password"
+          elId="confirmation"
+          [placeholder]="t('confirmPassword')"
+          formControlName="confirmPassword"
+          name="confirm-password"
+          [error]="getFirstError(formControls.confirmPassword)"
+          autocomplete="new-password"
+          *ngIf="isPasswordProvider()" />
+
+        <app-drag-and-drop
+          [darkMode]="true"
+          formControlName="avatar"
+          [ngClass]="{ invalid: formControls.avatar.errors }"
+          [accept]="['image/*']"
+          [enablePreviews]="true"
+          [previewSize]="100"
+          #dndInput />
+
+        <app-button
+          type="submit"
+          icon="log-in"
+          [disabled]="registerForm.invalid || loading !== undefined">
+          {{ t('submit') }}
+        </app-button>
+      </form>
+    </div>
+
+    <ng-template #elseNoConfig>
+      <div class="card">
+        <p class="error">{{ t('no_config') }}</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

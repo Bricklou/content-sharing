@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="drag-and-drop.component.css" />
+<div
+  class="drag-n-drop"
+  draggable="true"
+  [ngClass]="dragAreaClass"
+  [class.dark]="darkMode"
+  *transloco="let t; read: 'components.drag-drop'">
+  <button
+    type="button"
+    class="box"
+    (click)="onClick()"
+    [ngClass]="{ 'is-dragging': isDragging }"
+    (dragenter)="onDragEnter($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)">
+    <div class="description">
+      <p class="title">{{ t('drag-here') }}</p>
+      <p class="subtitle">{{ t('open') }}</p>
+      <input
+        type="file"
+        #fileInput
+        [multiple]="multiple"
+        (change)="onFileChange($event)"
+        [accept]="accept"
+        [attr.aria-label]="t('upload-file')" />
+    </div>
+    <div class="hovered">
+      <lucide-icon name="upload-cloud" class="icon"></lucide-icon>
+      <span>Drop file here</span>
+    </div>
+  </button>
+  <div class="dragged-file-wrapper" *ngIf="uploadedFiles">
+    <ul>
+      <li class="file" *ngFor="let file of uploadedFiles">
+        <lucide-icon
+          *ngIf="!enablePreviews || !isImage(file)"
+          name="file"
+          class="icon"></lucide-icon>
+
+        <ng-container *ngIf="enablePreviews && isImage(file); else elseNoPreviews">
+          <app-preview-canvas [file]="file" [height]="previewSize" [width]="previewSize" />
+        </ng-container>
+        <ng-template #elseNoPreviews>
+          <span [innerText]="file.name"></span>
+        </ng-template>
+
+        <button
+          (click)="removeFile(file)"
+          [title]="t('remove')"
+          type="button"
+          [attr.aria-label]="t('remove')">
+          <lucide-icon name="x"></lucide-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

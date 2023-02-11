@@ -17,3 +17,5 @@ WEBAPP_OAUTH2 = {
         'REDIRECT_URI': ""
     }
 }
+
+ALLOW_ACCOUNT_CREATION = True

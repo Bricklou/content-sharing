@@ -26,6 +26,8 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     # Application settings route
     path('api/config', views.app_config, name='app_config'),
 
+    path('api/proxy', views.resources_proxy, name='resources_proxy'),
+
     # API 404 route
     re_path(r'api/?.*', custom_404),
 ]

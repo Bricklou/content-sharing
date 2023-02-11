@@ -9,7 +9,7 @@ import { LoadingBarIndicatorComponent } from './components/partials/loading-bar-
 import { NavBarComponent } from '@app/components/partials/navbar/navbar.component';
 import { InputComponent } from './components/forms/input/input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './pages/login/login.component';
+import { SignInComponent } from './pages/login/sign-in.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
@@ -17,6 +17,10 @@ import { CsrfInterceptor } from './interceptors/csrf.interceptor';
 import { AlertComponent } from './components/base/alert/alert.component';
 import { discord, github, NgxSimpleIconsModule } from 'ngx-simple-icons';
 import { OauthCallbackComponent } from './pages/oauth-callback/oauth-callback.component';
+import { RegisterAccountComponent } from './pages/register/account/register-account.component';
+import { DragAndDropComponent } from './components/forms/drag-and-drop/drag-and-drop.component';
+import { WidgetsComponent } from './pages/widgets/widgets.component';
+import { PreviewCanvasComponent } from './components/forms/drag-and-drop/preview-canvas/preview-canvas.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +29,14 @@ import { OauthCallbackComponent } from './pages/oauth-callback/oauth-callback.co
     NavBarComponent,
     LoadingBarIndicatorComponent,
     InputComponent,
-    LoginComponent,
+    SignInComponent,
     HomeComponent,
     AlertComponent,
     OauthCallbackComponent,
+    RegisterAccountComponent,
+    DragAndDropComponent,
+    WidgetsComponent,
+    PreviewCanvasComponent,
   ],
   imports: [
     BrowserModule,

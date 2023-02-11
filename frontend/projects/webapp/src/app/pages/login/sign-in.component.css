@@ -10,14 +10,14 @@
   }
 
   header {
-    @apply z-10 absolute top-0 w-screen p-4;
+    @apply z-10 top-0 w-screen p-4;
 
     lucide-angular {
       @apply h-7 w-7;
     }
 
     .link {
-      @apply py-2 px-2 mx-1 flex text-white;
+      @apply py-2 px-2 mx-1 flex text-white max-w-fit;
       @apply border-transparent;
       @apply transition-colors duration-100 ease-in-out;
 
@@ -31,12 +31,19 @@
     }
   }
 
+  .content {
+    @apply container flex-1 z-10 flex flex-col justify-center items-center;
+  }
+
   .card {
-    @apply container py-6 md:py-4 px-8 text-white z-10;
-    @apply md:max-w-xl;
+    @apply py-6 md:py-4 px-8 text-white md:max-w-xl w-full;
 
     h1 {
       @apply uppercase text-4xl mb-6 text-center md:text-left;
+    }
+
+    .sub-title {
+      @apply uppercase text-2xl mb-6 text-center md:text-left;
     }
 
     .error {
@@ -99,10 +106,6 @@
 
   .third-parties-auth {
     @apply flex flex-col;
-
-    .title {
-      @apply uppercase text-xl w-full mx-auto;
-    }
 
     app-button {
       @apply mt-6;

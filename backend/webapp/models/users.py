@@ -43,6 +43,7 @@ class User(AbstractUser):
     class Meta(AbstractUser.Meta):
         verbose_name = _('user')
         verbose_name_plural = _('users')
+        unique_together = ('email', 'username',)
 
     class Theme(models.TextChoices):
         DARK = 'dark'
@@ -50,6 +51,7 @@ class User(AbstractUser):
 
     first_name = None
     last_name = None
+    email = models.EmailField(_("email address"), unique=True)
 
     theme = models.CharField(max_length=5, choices=Theme.choices, default=Theme.LIGHT)
 
