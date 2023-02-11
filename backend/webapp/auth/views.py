@@ -3,12 +3,12 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from webapp.serializers import UserSerializer
-from webapp.utils.permissions import IsAuthenticatedNotPost
 from .providers.provider import Provider
 from .serializers import UserSignInSerializer, UserRegisterSerializer
 from ..apps import logger
@@ -29,8 +29,9 @@ if webapp_settings.is_provider_enabled('discord'):
     providers["discord"] = DiscordProvider()
 
 
-@permission_classes([IsAuthenticatedNotPost])
 class UserView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = request.user
         serialized_user = UserSerializer(user)
@@ -57,6 +58,11 @@ class UserView(APIView):
             serialized_user = UserSerializer(user)
             return Response({"detail": "Success", "user": serialized_user.data})
         return Response({"detail": "Invalid credentials"}, status=400)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            self.permission_classes = [~IsAuthenticated]
+        return super().dispatch(request, *args, **kwargs)
 
 
 @ensure_csrf_cookie
@@ -85,7 +91,7 @@ def check_user(self: Request) -> Response:
 
 
 class UserRegisterView(APIView):
-    parser_classes = [MultiPartParser]
+    parser_classes = [MultiPartParser, ~IsAuthenticated]
 
     def post(self, request: Request) -> Response:
         """
@@ -106,6 +112,7 @@ class UserRegisterView(APIView):
         return Response({"detail": "Success", "user": serialized_user.data})
 
 
+@permission_classes([~IsAuthenticated])
 class OAuth2View(APIView):
     def get(self, request):
         """

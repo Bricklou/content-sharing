@@ -21,6 +21,7 @@ import { RegisterAccountComponent } from './pages/register/account/register-acco
 import { DragAndDropComponent } from './components/forms/drag-and-drop/drag-and-drop.component';
 import { WidgetsComponent } from './pages/widgets/widgets.component';
 import { PreviewCanvasComponent } from './components/forms/drag-and-drop/preview-canvas/preview-canvas.component';
+import { UserNavDropdownComponent } from './components/partials/navbar/dropdown/user-nav-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { PreviewCanvasComponent } from './components/forms/drag-and-drop/preview
     DragAndDropComponent,
     WidgetsComponent,
     PreviewCanvasComponent,
+    UserNavDropdownComponent,
   ],
   imports: [
     BrowserModule,

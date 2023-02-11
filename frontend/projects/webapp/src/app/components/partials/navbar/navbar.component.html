@@ -1,6 +1,6 @@
 <header *transloco="let t; read: 'components.navbar'" class="navbar-container">
   <div class="navbar">
-    <nav class="menu" role="menubar">
+    <nav class="menu" role="menubar" aria-label="Navbar">
       <div class="submenu menu-start">
         <a
           [routerLinkActiveOptions]="{ exact: true }"
@@ -8,7 +8,8 @@
           ariaCurrentWhenActive="page"
           class="link"
           routerLink="/"
-          routerLinkActive="active">
+          routerLinkActive="active"
+          role="menuitem">
           <lucide-angular name="home" />
         </a>
 
@@ -21,7 +22,9 @@
           [placeholder]="t('search_bar')"
           class="search-bar"
           elId="search-bar"
-          type="search" />
+          type="search"
+          role="menuitem"
+          [attr.aria-label]="t('search_bar')" />
 
         <ng-template [ngIf]="searchValue.length > 0">
           <p (click)="toggleSearch()" [ngClass]="{ active: !isSearching }" class="search-preview">
@@ -35,40 +38,16 @@
 
       <div [ngClass]="{ active: isMenuOpened }" class="submenu menu-end">
         <div class="header-buttons">
-          <button class="link" type="button">
+          <button class="link" type="button" role="menuitem" aria-label="toggle theme">
             <lucide-angular name="sun" />
           </button>
-          <button (click)="toggleMenu()" class="link close-btn" type="button">
+          <button (click)="toggleMenu()" class="link close-btn" type="button" role="menuitem">
             <lucide-angular name="x"></lucide-angular>
           </button>
         </div>
 
         <div class="menu-content">
-          <ng-container *ngIf="currentUser; else elseGuest">
-            <button
-              (click)="logout()"
-              [title]="t('sign-out')"
-              class="link sign-out-btn"
-              type="button">
-              <span class="avatar">
-                <img
-                  *ngIf="currentUser.avatar; else elseNotAvatar"
-                  [alt]="currentUser.username + '\'s avatar'"
-                  [src]="currentUser.avatar" />
-
-                <ng-template #elseNotAvatar>
-                  <lucide-angular class="icon" name="user" />
-                </ng-template>
-              </span>
-              <span class="md:hidden">{{ currentUser.username }}</span>
-            </button>
-          </ng-container>
-          <ng-template #elseGuest>
-            <a [title]="t('sign-in')" class="link" routerLink="/sign-in">
-              <lucide-angular class="icon" name="log-in" />
-              <span class="md:hidden">{{ t('sign-in') }}</span>
-            </a>
-          </ng-template>
+          <app-dropdown />
         </div>
       </div>
     </nav>

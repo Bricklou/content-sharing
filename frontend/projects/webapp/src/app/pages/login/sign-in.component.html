@@ -29,6 +29,18 @@
           formControlName="username"
           [ngClass]="{ invalid: formControls.username.errors }" />
 
+        <app-input
+          *ngIf="passUserExists; else dummyPass"
+          type="password"
+          elId="password"
+          [placeholder]="t('password')"
+          formControlName="password"
+          [ngClass]="{ invalid: formControls.password?.errors }" />
+
+        <ng-template #dummyPass>
+          <input type="password" name="current-password" hidden aria-hidden="true" />
+        </ng-template>
+
         <app-button
           type="submit"
           icon="log-in"

@@ -15,6 +15,7 @@ import { DOCUMENT } from '@angular/common';
 import { DragAndDropComponent } from '@app/components/forms/drag-and-drop/drag-and-drop.component';
 import { translate } from '@ngneat/transloco';
 import Validation from '@app/utils/validation';
+import { FormValidation } from '@app/utils/types';
 
 interface UserRegister {
   username: FormControl<string>;
@@ -145,6 +146,11 @@ export class RegisterAccountComponent implements OnDestroy {
         field: translate<string>('pages.register.password'),
       });
 
+    const params = control.errors[key] as string | object;
+    if (typeof params === 'object') {
+      return translate(`form.errors.${key}`, params);
+    }
+
     return translate(`form.errors.${key}`);
   }
 
@@ -180,7 +186,7 @@ export class RegisterAccountComponent implements OnDestroy {
     }
 
     this.registerSub = this.auth.register(registerOptions).subscribe({
-      error: (error: Error | { validation: Record<string, { code: string; message: string }> }) => {
+      error: (error: Error | FormValidation) => {
         if (error instanceof Error) {
           this.error = [error.message];
           return;
@@ -193,8 +199,9 @@ export class RegisterAccountComponent implements OnDestroy {
           const control = this.registerForm.get(key);
           if (!control || !error.validation[key]) continue;
 
-          const firstError = error.validation[key].code;
-          control.setErrors({ [firstError]: true });
+          const data = error.validation[key][0].split(':');
+          const firstError = data[0];
+          control.setErrors({ [firstError]: data.length === 2 ? { [firstError]: data[1] } : true });
           this.changeDetector.detectChanges();
         }
       },

@@ -2,7 +2,6 @@ import { AuthService } from '@app/services/auth.service';
 import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '@app/interfaces/User';
 import { InputComponent } from '@app/components/forms/input/input.component';
 
 @Component({
@@ -32,16 +31,8 @@ export class NavBarComponent implements OnDestroy {
     });
   }
 
-  protected get currentUser(): User | undefined {
-    return this.auth.currentUser;
-  }
-
   public ngOnDestroy() {
     if (this.sub) this.sub.unsubscribe();
-  }
-
-  protected logout(): void {
-    this.auth.logout().subscribe();
   }
 
   protected toggleSearch(): void {
@@ -57,7 +48,6 @@ export class NavBarComponent implements OnDestroy {
   }
 
   protected async search(): Promise<void> {
-    console.log('search', this.searchValue);
     this.searchElement.blur();
     this.isSearching = false;
 

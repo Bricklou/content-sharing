@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@app/services/auth.service';
@@ -6,9 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '@app/services/config.service';
 import { AppConfig, OAuthProviders } from '@app/interfaces/AppConfig';
 import { DOCUMENT } from '@angular/common';
+import { FormValidation } from '@app/utils/types';
+import { translate } from '@ngneat/transloco';
 
 interface UserSignin {
   username: FormControl<string>;
+  password: FormControl<string>;
 }
 
 @Component({
@@ -24,6 +27,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   private oauth2Sub?: Subscription;
   private config: AppConfig | undefined;
   protected loading: OAuthProviders | undefined;
+  protected passUserExists = false;
 
   public constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -31,6 +35,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     private currentRoute: ActivatedRoute,
     private auth: AuthService,
     private configService: ConfigService,
+    private changeDetector: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document,
   ) {
     this.configSub = this.configService.events.subscribe({
@@ -43,6 +48,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.signinForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.maxLength(150)]],
+      password: ['', [Validators.minLength(6), Validators.maxLength(150)]],
     });
   }
 
@@ -65,30 +71,61 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.error = undefined;
 
     // Process signin data
-    if (this.signinForm.invalid) return;
+    if (this.signinForm.invalid) {
+      return;
+    }
 
     const value = this.signinForm.value;
     if (!value.username) {
       return;
     }
 
-    this.signinSub = this.auth.checkUser(value.username).subscribe({
-      next: (user: boolean) => {
-        if (user) {
-          void this.router.navigate(['/login'], {
-            queryParams: { username: value.username },
-            queryParamsHandling: 'merge',
-          });
-        } else {
-          void this.router.navigate(['/register'], {
-            state: { username: value.username },
-          });
-        }
-      },
-      error: (error: Error) => {
-        this.error = [error.message];
-      },
-    });
+    if (!value.password) {
+      this.signinSub = this.auth.checkUser(value.username).subscribe({
+        next: (user: boolean) => {
+          if (user) {
+            this.passUserExists = true;
+            this.signinForm.controls.password?.addValidators(Validators.required);
+          } else {
+            void this.router.navigate(['/register'], {
+              state: { username: value.username },
+            });
+          }
+        },
+        error: (error: Error) => {
+          this.error = [error.message];
+        },
+      });
+    } else {
+      this.signinSub = this.auth
+        .login({ username: value.username, password: value.password })
+        .subscribe({
+          next: () => {
+            void this.router.navigate(['/login']);
+          },
+          error: (error: Error | FormValidation) => {
+            if (error instanceof Error) {
+              this.error = [error.message];
+              return;
+            } else if (error.validation == undefined) {
+              this.error = [translate('pages.register.error.unknown')];
+              return;
+            }
+
+            for (const key of Object.keys(error.validation)) {
+              const control = this.signinForm.get(key);
+              if (!control || !error.validation[key]) continue;
+
+              const data = error.validation[key][0].split(':');
+              const firstError = data[0];
+              control.setErrors({
+                [firstError]: data.length === 2 ? { [firstError]: data[1] } : true,
+              });
+              this.changeDetector.detectChanges();
+            }
+          },
+        });
+    }
   }
 
   protected clearError() {

@@ -1,0 +1,46 @@
+<ng-container *transloco="let t; read: 'components.navbar'">
+  <div *ngIf="currentUser; else elseGuest" [attr.aria-expanded]="isOpen" aria-haspopup="true">
+    <button
+      (click)="toggle()"
+      [attr.aria-label]="t('my-account')"
+      [title]="t('my-account')"
+      class="link user-btn avatar"
+      role="menuitem"
+      type="button"
+      id="account-btn">
+      <span class="avatar">
+        <img
+          *ngIf="currentUser.avatar; else elseNotAvatar"
+          [alt]="currentUser.username + '\'s avatar'"
+          [src]="currentUser.avatar" />
+
+        <ng-template #elseNotAvatar>
+          <lucide-angular class="icon" name="user" />
+        </ng-template>
+      </span>
+      <span>{{ currentUser.username }}</span>
+    </button>
+    <ul aria-label="My account" role="menu" aria-labelledby="account-btn" class="user-menu">
+      <div class="separator" role="separator"></div>
+      <li>
+        <a [title]="t('settings')" class="link" role="menuitem" routerLink="/settings">
+          <lucide-angular class="icon" name="settings" />
+          <span>{{ t('settings') }}</span>
+        </a>
+      </li>
+      <li>
+        <button (click)="logout()" [title]="t('sign-out')" class="link" role="menuitem">
+          <lucide-angular class="icon" name="log-out" />
+          <span>{{ t('sign-out') }}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #elseGuest>
+    <a [title]="t('sign-in')" class="link" role="menuitem" routerLink="/sign-in">
+      <lucide-angular class="icon" name="log-in" />
+      <span>{{ t('sign-in') }}</span>
+    </a>
+  </ng-template>
+</ng-container>

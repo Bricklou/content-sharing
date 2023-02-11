@@ -55,6 +55,10 @@
     @apply mb-4;
   }
 
+  input[hidden] {
+    @apply hidden;
+  }
+
   app-button {
     @apply block;
   }

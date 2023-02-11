@@ -10,14 +10,16 @@
       "home": "Home",
       "search_bar": "Search a game",
       "sign-in": "Sign In",
-      "sign-out": "Sign Out"
+      "sign-out": "Sign Out",
+      "my-account": "My Account",
+      "settings": "Settings"
     }
   },
   "form": {
     "errors": {
       "email": "This field must be a valid email",
-      "maxLength": "This field must be less than {{maxLength}} characters",
-      "minLength": "This field must be at least {{minLength}} characters",
+      "max_length": "This field must be less than {{max_length}} characters",
+      "min_length": "This field must be at least {{min_length}} characters",
       "notMatching": "This field must be the same as {{field}}",
       "required": "This field is required",
       "unique": "This field must be unique"
