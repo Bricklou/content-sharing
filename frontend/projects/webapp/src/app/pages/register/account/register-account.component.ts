@@ -82,7 +82,7 @@ export class RegisterAccountComponent implements OnDestroy {
           this.state.email,
           [Validators.required, Validators.maxLength(150), Validators.email],
         ],
-        avatar: [[] as File[], [Validators.required]],
+        avatar: [[] as File[]],
         password: [
           '',
           this.isPasswordProvider() ? [Validators.required, Validators.maxLength(128)] : [],
@@ -96,6 +96,8 @@ export class RegisterAccountComponent implements OnDestroy {
         validators: [Validation.match('password', 'confirmPassword')],
       },
     );
+    // Prevent the form to show errors on load
+    this.registerForm.markAsUntouched();
 
     this.userSub = this.auth.events.subscribe({
       next: user => {
@@ -132,7 +134,7 @@ export class RegisterAccountComponent implements OnDestroy {
   }
 
   public getFirstError(control: AbstractControl): string | undefined {
-    if (!control.errors) return undefined;
+    if (!control.errors || !control.touched) return undefined;
 
     // return the first available error key and generate an i18n key from it
     const key = Object.keys(control.errors ?? {}).find(() => true);
@@ -159,7 +161,7 @@ export class RegisterAccountComponent implements OnDestroy {
     const baseOptions: RegisterBaseOptions = {
       username: value.username,
       email: value.email,
-      avatar: value.avatar,
+      avatar: value.avatar.length > 0 ? value.avatar[0] : undefined,
     };
     let registerOptions: RegisterOptions;
 

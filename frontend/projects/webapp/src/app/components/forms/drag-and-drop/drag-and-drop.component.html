@@ -5,7 +5,8 @@
   [ngClass]="dragAreaClass"
   [class.dark]="darkMode"
   *transloco="let t; read: 'components.drag-drop'">
-  <div
+  <button
+    type="button"
     class="box"
     (click)="onClick()"
     [ngClass]="{ 'is-dragging': isDragging }"
@@ -28,7 +29,7 @@
       <lucide-icon name="upload-cloud" class="icon"></lucide-icon>
       <span>Drop file here</span>
     </div>
-  </div>
+  </button>
   <div class="dragged-file-wrapper" *ngIf="uploadedFiles">
     <ul>
       <li class="file" *ngFor="let file of uploadedFiles">

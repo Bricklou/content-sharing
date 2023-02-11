@@ -81,7 +81,7 @@ export class SignInComponent implements OnInit, OnDestroy {
           });
         } else {
           void this.router.navigate(['/register'], {
-            queryParams: { username: value.username },
+            state: { username: value.username },
           });
         }
       },

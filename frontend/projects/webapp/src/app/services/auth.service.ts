@@ -24,7 +24,7 @@ interface UserResponse {
 export interface RegisterBaseOptions {
   username: string;
   email: string;
-  avatar?: File[];
+  avatar?: File;
 }
 
 interface RegisterOauth2Options {
@@ -75,7 +75,7 @@ export class AuthService {
 
     data.append('username', userRegister.username);
     data.append('email', userRegister.email);
-    if (userRegister.avatar) data.append('avatar', userRegister.avatar[0]);
+    if (userRegister.avatar) data.append('avatar', userRegister.avatar, userRegister.avatar.name);
 
     if (userRegister.oauth2_id && userRegister.provider) {
       data.append('oauth2_id', userRegister.oauth2_id);

@@ -4,15 +4,21 @@
   .box {
     @apply border-gray-500 text-gray-500;
 
-    &:hover {
+    &:hover,
+    &:focus {
       @apply border-candlelight-500 text-candlelight-600 bg-gray-400 bg-opacity-10;
+    }
+
+    &:focus {
+      @apply outline outline-offset-8 outline-candlelight-500 outline-2;
     }
   }
 
   &.dark .box {
     @apply border-gray-300 text-gray-300;
 
-    &:hover {
+    &:hover,
+    &:focus {
       @apply border-candlelight-500 text-candlelight-300 bg-gray-100 bg-opacity-10;
     }
   }
@@ -48,11 +54,13 @@
   }
 }
 
-:not(.is-dragging) .hovered {
+:not(.is-dragging) .hovered,
+.box:not(:focus) .hovered {
   @apply hidden;
 }
 
-.is-dragging {
+.is-dragging,
+.box:focus {
   @apply bg-gray-100 bg-opacity-10;
 
   .description {

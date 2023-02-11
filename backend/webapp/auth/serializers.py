@@ -16,18 +16,21 @@ class UserRegisterSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128, min_length=6, required=False, error_messages=VALIDATIONS_ERRORS)
     confirmation = serializers.CharField(max_length=128, min_length=6, required=False,
                                          error_messages=VALIDATIONS_ERRORS)
-    avatar = serializers.ImageField(required=False, error_messages=VALIDATIONS_ERRORS, allow_null=True)
+    avatar = serializers.ImageField(required=False, error_messages=VALIDATIONS_ERRORS, allow_null=True,
+                                    allow_empty_file=True, default=None)
 
     # For Oauth2 registration
-    oauth2_id = serializers.CharField(required=False, source='remote_user_id', error_messages=VALIDATIONS_ERRORS)
-    provider = serializers.ChoiceField(required=False, choices=['github', 'discord'], error_messages=VALIDATIONS_ERRORS)
+    oauth2_id = serializers.CharField(required=False, source='remote_user_id', error_messages=VALIDATIONS_ERRORS,
+                                      allow_null=True, allow_blank=True)
+    provider = serializers.ChoiceField(required=False, choices=['github', 'discord'], error_messages=VALIDATIONS_ERRORS,
+                                       allow_null=True, allow_blank=True)
 
     class Meta:
         validators = [
             serializers.UniqueTogetherValidator(queryset=User.objects.all(), fields=['username', 'email'],
                                                 message=VALIDATIONS_ERRORS['unique']),
-            serializers.UniqueTogetherValidator(queryset=UserAuth.objects.all(), fields=['oauth2_id', 'provider'],
-                                                message=VALIDATIONS_ERRORS['unique']),
+            # serializers.UniqueTogetherValidator(queryset=UserAuth.objects.all(), fields=['oauth2_id', 'provider'],
+            #                                    message=VALIDATIONS_ERRORS['unique']),
         ]
 
     def create(self, validated_data) -> User:
@@ -51,15 +54,18 @@ class UserRegisterSerializer(serializers.Serializer):
         return user
 
     def validate(self, attrs):
-        password_oauth = 'password' in attrs and 'confirmation' in attrs
+        password_auth = 'password' in attrs and 'confirmation' in attrs
 
-        if password_oauth:
-            self.password.required = True
-            self.confirmation.required = True
+        if password_auth:
+            self.fields['password'].required = True
+            self.fields['confirmation'].required = True
+        else:
+            self.fields['oauth2_id'].required = True
+            self.fields['provider'].required = True
 
         result = super().validate(attrs)
 
-        if password_oauth and attrs['password'] != attrs['confirmation']:
+        if password_auth and attrs['password'] != attrs['confirmation']:
             raise serializers.ValidationError(VALIDATIONS_ERRORS['password_match'])
 
         return result
