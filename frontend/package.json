@@ -25,7 +25,7 @@
     "@angular/platform-browser": "^15.1.2",
     "@angular/platform-browser-dynamic": "^15.1.2",
     "@angular/router": "^15.1.2",
-    "@ngneat/transloco": "4.2.4",
+    "@ngneat/transloco": "4.2.6",
     "lucide-angular": "^0.115.0",
     "ngx-simple-icons": "^1.0.18",
     "rxjs": "~7.8.0",
