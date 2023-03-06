@@ -40,7 +40,7 @@
     "@angular-eslint/eslint-plugin-template": "15.2.1",
     "@angular-eslint/schematics": "15.2.1",
     "@angular-eslint/template-parser": "15.2.1",
-    "@angular/cli": "~15.1.3",
+    "@angular/cli": "~15.2.1",
     "@angular/compiler-cli": "^15.1.2",
     "@ngneat/transloco-keys-manager": "^3.5.0",
     "@ngneat/transloco-optimize": "^3.0.2",
